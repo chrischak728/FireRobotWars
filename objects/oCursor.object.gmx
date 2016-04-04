@@ -64,16 +64,20 @@ if (gridX &lt; 0 || gridY &lt;0 || gridX &gt; room_width/GRID_SIZE-1 || gridY &g
     hoverNode = global.map[gridX,gridY];
 }
 
-if (mouse_check_button(mb_left)){
+if (mouse_check_button_pressed(mb_left)){
     if (hoverNode.occupant != noone){
         selectedActor = hoverNode.occupant;
+        selectedActor.actions = 2;
+        movement_range(hoverNode, selectedActor.move, selectedActor.actions);
     } else {
         selectedActor = noone;
+        //reset all nodes
+        wipe_nodes();
     }
 }
 
-if (mouse_check_button(mb_right)){
-    if (selectedActor != noone &amp;&amp; hoverNode.occupant == noone &amp;&amp; hoverNode.passable == true){
+if (mouse_check_button_pressed(mb_right)){
+    if (selectedActor != noone &amp;&amp; hoverNode.moveNode){
         //clear node of selectedActor
         map[selectedActor.gridX, selectedActor.gridY].occupant = noone;
         
@@ -83,14 +87,32 @@ if (mouse_check_button(mb_right)){
         selectedActor.x = hoverNode.x;
         selectedActor.y = hoverNode.y;
         
-        //update new node's occupant
+        //update new node's occupantId
         hoverNode.occupant = selectedActor;
         
         //deselect selected actor
-        selectedActor= noone;
-        
+        //if selectedActor performed a Doublemove, if not, keep selected
+        if (hoverNode.G &gt; selectedActor.move){
+            selctedActor = noone;
+            wipe_nodes();
+            
+        } else {
+            selectedActor.actions--;
+            if (selectedActor.actions &gt;0){
+                //reperform movement range
+                tempNode = global.map[selectedActor.gridX, selectedActor.gridY];
+                movement_range(tempNode, selectedActor.move, selectedActor.actions);
+            } else {
+                selectedActor = noone;
+                //reset all nodes
+                wipe_nodes();
+            }
+        }
     } else {
         selectedActor = noone;
+        
+        //reset all nodes
+        wipe_nodes();
     }
 }
 </string>
