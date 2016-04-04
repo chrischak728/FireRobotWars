@@ -10,15 +10,24 @@
     <sprite>sprites\sCursor</sprite>
     <sprite>sprites\sSelected</sprite>
     <sprite>sprites\char1</sprite>
+    <sprite>sprites\sWall</sprite>
+    <sprite>sprites\sRubble</sprite>
+    <sprite>sprites\sprite9</sprite>
   </sprites>
-  <backgrounds name="background"/>
+  <backgrounds name="background">
+    <background>background\background0</background>
+  </backgrounds>
   <paths name="paths"/>
   <objects name="objects">
     <object>objects\oNode</object>
     <object>objects\oGame</object>
     <object>objects\oCursor</object>
     <object>objects\oActor</object>
-    <object>objects\oChar1</object>
+    <object>objects\oKen</object>
+    <object>objects\oGavin</object>
+    <object>objects\oTerrain</object>
+    <object>objects\oWall</object>
+    <object>objects\oRubble</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\lvl_1</room>

@@ -25,7 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>globalvar map;
+            <string>state = "initializing";
+
+globalvar map;
 
 mapWidth = room_width/GRID_SIZE;
 mapHeight = room_height/GRID_SIZE;
@@ -34,6 +36,8 @@ mapHeight = room_height/GRID_SIZE;
 for (i =0;i&lt;mapWidth;i++){
     for (j=0; j&lt;mapHeight;j++){
         map[i,j] = instance_create(i*GRID_SIZE, j*GRID_SIZE, oNode);
+        map[i,j].gridX = i;
+        map[i,j].gridY = j;
     }
 }
 
@@ -78,20 +82,62 @@ for (i =0;i&lt;mapWidth;i++){
 
 instance_create(0, 0,oCursor); 
 
-with(instance_create(5* GRID_SIZE, 5*GRID_SIZE, oChar1)){
-    gridX = 5;
-    gridY = 5;
-    name = "Ken";
-    global.map[gridX, gridY].occupant = id;
-    
-}
 
-with(instance_create(5* GRID_SIZE, 7*GRID_SIZE, oChar1)){
-    gridX = 5;
-    gridY = 7;
-    name = "Gavin";
-    global.map[gridX, gridY].occupant = id;
-    
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>switch(state){
+    case "initializing":
+        with(oNode){
+            if (instance_position (x+16, y+16, oTerrain)){
+                tempTerrain = instance_position(x+16, y+16, oTerrain);
+                
+                switch(tempTerrain.type){
+                    case "wall":
+                        type = "wall";
+                        sprite_index = sWall;
+                        passable = false;
+                        break;
+                        
+                    case "rubble":
+                        type = "rubble";
+                        sprite_index = sRubble;
+                        cost = 2;
+                        break;
+                }
+                with(tempTerrain){
+                    instance_destroy();
+                }
+            }
+            
+            if (instance_position (x+16, y+16,oActor)){
+                occupant = instance_position (x+16, y+16, oActor);
+                occupant.gridX = gridX;
+                occupant.gridY = gridY;
+            }
+        }
+        
+        state = "ready";
+        break;
 }
 </string>
           </argument>
