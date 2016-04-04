@@ -17,7 +17,8 @@
     <object>objects\oNode</object>
     <object>objects\oGame</object>
     <object>objects\oCursor</object>
-    <object>objects\object3</object>
+    <object>objects\oActor</object>
+    <object>objects\oChar1</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\lvl_1</room>

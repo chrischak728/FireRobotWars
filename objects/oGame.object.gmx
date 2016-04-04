@@ -77,6 +77,22 @@ for (i =0;i&lt;mapWidth;i++){
 }
 
 instance_create(0, 0,oCursor); 
+
+with(instance_create(5* GRID_SIZE, 5*GRID_SIZE, oChar1)){
+    gridX = 5;
+    gridY = 5;
+    name = "Ken";
+    global.map[gridX, gridY].occupant = id;
+    
+}
+
+with(instance_create(5* GRID_SIZE, 7*GRID_SIZE, oChar1)){
+    gridX = 5;
+    gridY = 7;
+    name = "Gavin";
+    global.map[gridX, gridY].occupant = id;
+    
+}
 </string>
           </argument>
         </arguments>
