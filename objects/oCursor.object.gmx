@@ -66,9 +66,11 @@ if (gridX &lt; 0 || gridY &lt;0 || gridX &gt; room_width/GRID_SIZE-1 || gridY &g
 
 if (mouse_check_button_pressed(mb_left)){
     if (hoverNode.occupant != noone){
-        selectedActor = hoverNode.occupant;
-        selectedActor.actions = 2;
-        movement_range(hoverNode, selectedActor.move, selectedActor.actions);
+        if (hoverNode.occupant != selectedActor){
+            selectedActor = hoverNode.occupant;
+            selectedActor.actions = 2;
+            movement_range(hoverNode, selectedActor.move, selectedActor.actions);
+        }
     } else {
         selectedActor = noone;
         //reset all nodes
@@ -78,39 +80,51 @@ if (mouse_check_button_pressed(mb_left)){
 
 if (mouse_check_button_pressed(mb_right)){
     if (selectedActor != noone &amp;&amp; hoverNode.moveNode){
-        //clear node of selectedActor
-        map[selectedActor.gridX, selectedActor.gridY].occupant = noone;
+        current = hoverNode;
+        //**create priority queue
+        path = ds_priority_create();
         
-        //update selectedActor's pos
-        selectedActor.gridX = gridX;
-        selectedActor.gridY = gridY;
-        selectedActor.x = hoverNode.x;
-        selectedActor.y = hoverNode.y;
-        
-        //update new node's occupantId
-        hoverNode.occupant = selectedActor;
-        
-        //deselect selected actor
-        //if selectedActor performed a Doublemove, if not, keep selected
-        if (hoverNode.G &gt; selectedActor.move){
-            selctedActor = noone;
-            wipe_nodes();
-            
-        } else {
-            selectedActor.actions--;
-            if (selectedActor.actions &gt;0){
-                //reperform movement range
-                tempNode = global.map[selectedActor.gridX, selectedActor.gridY];
-                movement_range(tempNode, selectedActor.move, selectedActor.actions);
-            } else {
-                selectedActor = noone;
-                //reset all nodes
-                wipe_nodes();
-            }
+        //add 1st node to queue  priority = G
+        ds_priority_add(path,current,current.G);
+        //scan through all parent to parent
+        while (current.parent != noone){
+            ds_priority_add(path, current.parent, current.parent.G);
+            //next
+            current = current.parent;
         }
+        do {
+            //delete lowest priority node
+            current = ds_priority_delete_min(path);
+            //add current node's sprite
+            path_add_point(selectedActor.movementPath, current.x, current.y, 100);
+        } until(ds_priority_empty(path));
+       //free path memory
+       ds_priority_destroy(path);
+       
+       //clear selectedActor node
+       map[selectedActor.gridX, selectedActor.gridY].occupant = noone;
+       
+       //update selected actor pos
+       selectedActor.gridX = gridX;
+       selectedActor.gridY = gridY;
+       
+       hoverNode.occupant = selectedActor;
+       
+       selectedActor.state = "begin path";
+       
+       //reduce selectedActor actions adn clear nodes
+       
+       if (hoverNode.G &gt; selectedActor.move){
+            selectedActor.actions -=2;
+            wipe_nodes();
+       } else {
+            selectedActor.actions --;
+            wipe_nodes();
+       }
+       
+       selectedActor = noone;
     } else {
         selectedActor = noone;
-        
         //reset all nodes
         wipe_nodes();
     }

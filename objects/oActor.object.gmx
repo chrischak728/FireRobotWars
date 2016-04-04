@@ -25,7 +25,8 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>gridX = 0;
+            <string>state = "idle";
+gridX = 0;
 gridY = 0;
 
 name = "Error";
@@ -33,6 +34,109 @@ name = "Error";
 //char stats
 move = 5;
 actions = 2;
+
+movementPath = path_add();
+path_set_kind(movementPath, 2);
+path_set_closed(movementPath, false);
+
+//animation
+moveSpeed = 8;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>switch (state){
+    case "begin path": 
+    //begin move
+    path_start(movementPath, moveSpeed, 0, true);
+    state = "moving";
+    break;
+    
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="8">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>//clear path
+path_clear_points(movementPath);
+
+state = "idle";
+
+//remaining moves:
+if (actions&gt;0){
+    oCursor.selectedActor = id;
+    movement_range(map[gridX, gridY], move, actions);
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>    if (oCursor.hoverNode != map[gridX, gridY]){
+        current = oCursor.hoverNode;
+        
+        //scan parent hirachy
+        while (current.parent != noone){
+            //draw line
+            draw_line_width_color(current.x +16, current.y +16, current.parent.x +16, current.parent.y + 16, 4, c_lime, c_lime);
+            current = current.parent;
+    
+        }
+    }
+draw_self();
 </string>
           </argument>
         </arguments>
