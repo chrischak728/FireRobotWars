@@ -25,7 +25,21 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>state = "initializing";
+            <string>draw_set_font(fDefault);
+
+randomize();
+
+state = "initializing";
+
+turnOrder = ds_list_create();
+
+turnCounter = -1;
+
+turnMax = 0;
+
+currentActor = noone;
+
+roundCounter = 0;
 
 globalvar map;
 
@@ -113,14 +127,14 @@ instance_create(0, 0,oCursor);
                 
                 switch(tempTerrain.type){
                     case "wall":
+                        instance_change(oWall, true);
                         type = "wall";
-                        sprite_index = sWall;
                         passable = false;
                         break;
                         
                     case "rubble":
+                        instance_change(oRubble, true);
                         type = "rubble";
-                        sprite_index = sRubble;
                         cost = 2;
                         break;
                 }
@@ -136,8 +150,67 @@ instance_create(0, 0,oCursor);
             }
         }
         
-        state = "ready";
+        state = "roll init";
         break;
+    
+    case "roll init":
+        tempInit = ds_priority_create();
+        
+        //add all actor in the queue
+        with(oActor){
+            initRoll = irandom(20) + initiative;
+            
+            ds_priority_add(other.tempInit, id, initRoll);
+        }
+        
+        while(ds_priority_size(tempInit)&gt;0){
+            ds_list_add(turnOrder, ds_priority_delete_max(tempInit));
+        }
+        
+        turnMax = ds_list_size(turnOrder);
+        
+        ds_priority_destroy(tempInit);
+        
+        state = "ready";
+        
+        break;
+        
+    case "ready":
+        if(currentActor == noone){
+            turnCounter++;
+        
+            if(turnCounter &gt;= turnMax){
+                turnCounter = 0;
+                roundCounter++;
+            }
+            
+            currentActor = ds_list_find_value(turnOrder, turnCounter);
+            
+            currentActor.actions = 2;
+            currentActor.canAct = true;
+            
+            //only pass control to BLUE_ARMY
+            
+            if(currentActor.army = BLUE_ARMY){
+                oCursor.selectedActor = currentActor;
+                movement_range(map[currentActor.gridX, currentActor.gridY], currentActor.move, currentActor.actions);
+                switch(currentActor.attackType){
+                    case "ranged":
+                        ranged_attack_range(currentActor);
+                        break;
+                }
+            } else {
+                currentActor.flash = true;
+                currentActor.alarm[0] = 30;
+            }
+        }    
+    
+        break;
+        
+        
+        
+        
+        
 }
 </string>
           </argument>

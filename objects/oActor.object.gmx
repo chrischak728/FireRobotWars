@@ -25,22 +25,72 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>state = "idle";
+            <string>army = BLUE_ARMY;
+
+state = "idle";
 gridX = 0;
 gridY = 0;
 
 name = "Error";
 
-//char stats
-move = 5;
-actions = 2;
+class = "Peasant";
+race = "Human";
 
+//char stats -----------------------------------------
+level = 1;
+
+//base stats
+profMod = 2 + floor(level/5);
+
+//strength
+strMod = 0;
+//speed
+dexMod = 0;
+//constitution
+conMod = 0;
+//institution
+intMod = 0;
+//wisdom
+wisMod = 0;
+
+//health variable
+maxHP = 4 + conMod + ((level-1) * (3+conMod));
+currentHP = maxHP;
+
+//attack variable
+hitBonus = profMod + strMod;
+attackType = "melee";
+attackTarget = noone;
+attackTimer = 0;
+
+//damage variable
+damageDice = 4;
+damageBonus = strMod;
+damageType = "piercing";
+
+//defense variable
+armorClass = 10 + dexMod;
+
+//move and action variable
+move = 6;
+actions = 2;
+canAct = false;
+
+//init stats
+initiative = dexMod;
+initRoll = 0;
+
+//pathing ------------------------------
 movementPath = path_add();
 path_set_kind(movementPath, 2);
 path_set_closed(movementPath, false);
 
 //animation
 moveSpeed = 8;
+
+//effect
+shake = 0;
+shakeMag = 0;
 </string>
           </argument>
         </arguments>
@@ -63,12 +113,84 @@ moveSpeed = 8;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>switch (state){
+            <string>shake -= 1;
+
+switch (state){
     case "begin path": 
-    //begin move
-    path_start(movementPath, moveSpeed, 0, true);
-    state = "moving";
-    break;
+        //begin move
+        path_start(movementPath, moveSpeed, 0, true);
+        state = "moving";
+        break;
+    case "begin attack":
+        attackTimer--;
+        if(attackTimer&lt;=0){
+            state = "attack";
+        }
+        break;
+    case "attack":
+        switch(attackType){
+            case "ranged":
+                attackRoll = irandom_range(1, 20);
+                
+                if(attackRoll == 20){
+                    attackStatus = "crit";
+                } else {
+                    if(attackRoll + hitBonus &gt;  attackTarget.armorClass){
+                        attackStatus = "hit";
+                    } else {
+                        attackStatus = "miss";
+                    }
+                }
+                
+                tempDamage = 10;
+                if(attackStatus!="miss"){
+                    tempDamage = irandom_range(1, damageDice) + damageBonus;
+                    
+                    if(attackStatus=="crit"){
+                        tempDamage += irandom_range(1, damageDice);
+                    }
+                }
+                
+                attackDir = point_direction(x+16, y+16, attackTarget.x+16, attackTarget.y+16);
+                
+                beginX = x + 16 + lengthdir_x(30, attackDir);
+                beginY = y + 16 + lengthdir_y(30, attackDir);                
+                
+                with(instance_create(beginX, beginY, oArrow)){
+                    target = other.attackTarget;
+                    status = other.attackStatus;
+                    damage = other.tempDamage;
+                    damageType = other.damageType;
+                    
+                    path_add_point(movementPath, other.beginX, other.beginY, 100);
+                    
+                    if(status!="miss"){
+                        path_add_point(movementPath, target.x+16, target.y+16, 100);
+                    } else {
+                        path_add_point(movementPath, target.x + (irandom_range(30, 50)*(choose(-1,1))), target.y + (irandom_range(30, 50)*(choose(-1,1))), 100);
+                    }
+                    
+                    path_start(movementPath, speed, true, true);
+                }
+                
+                state = "end attack";
+                break;
+        }
+        break;
+    case "end attack":
+            attackTimer -= 1;
+            if(attackTimer&lt;=0){
+                if(actions&gt;0){
+                    oCursor.selectedActor = id;
+                    
+                    movement_range(map[gridX, gridY], move, actions)
+                } else {
+                    oGame.currentActor = noone;
+                }
+                
+                state = "idle";
+            }
+        break;
     
 }
 </string>
@@ -102,6 +224,16 @@ state = "idle";
 if (actions&gt;0){
     oCursor.selectedActor = id;
     movement_range(map[gridX, gridY], move, actions);
+    
+    if(canAct){
+        switch(attackType){
+            case "ranged":
+                ranged_attack_range(id);
+                break;
+        }
+    }
+} else {
+    oGame.currentActor = noone;
 }
 </string>
           </argument>
@@ -125,7 +257,9 @@ if (actions&gt;0){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>    if (oCursor.hoverNode != map[gridX, gridY]){
+            <string>if(oCursor.selectedActor == id){
+    tempNode = oCursor.hoverNode;
+    if (tempNode.moveNode){
         current = oCursor.hoverNode;
         
         //scan parent hirachy
@@ -136,7 +270,22 @@ if (actions&gt;0){
     
         }
     }
-draw_self();
+    
+    if(tempNode.attackNode){
+        switch(attackType){
+            case "ranged":
+                draw_line_width_colour(x+16, y+16, tempNode.x+16, tempNode.y+16, 4, c_purple, c_purple);
+                break;
+        }
+    }
+}
+
+if(shake&gt;0){
+    draw_sprite_ext(sprite_index, -1, x+irandom_range(-shakeMag,shakeMag), y+irandom_range(-shakeMag, shakeMag), 1, 1, 0, c_white, 1)
+} else {
+    draw_self();    
+}
+
 </string>
           </argument>
         </arguments>

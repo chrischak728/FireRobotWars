@@ -28,6 +28,50 @@
             <string>event_inherited();
 
 name = "Gavin";
+
+class = "Rogue";
+race = "Elf";
+
+//char stats -----------------------------------------
+level = 1;
+
+//base stats
+profMod = 2 + floor(level/5);
+
+//strength
+strMod = 0;
+//speed
+dexMod = 3;
+//constitution
+conMod = 2;
+//institution
+intMod = 1;
+//wisdom
+wisMod = 0;
+
+//health
+maxHP = 8 + conMod + ((level-1) * (5+conMod));
+currentHP = maxHP;
+
+//attack
+hitBonus = profMod + dexMod;
+attackType = "ranged";
+attackRange = 15 * GRID_SIZE;
+
+//damamge
+damageDice = 6;
+damageBonus = dexMod;
+damageType = "piercing";
+
+//defense
+armorClass = 15;
+
+//move and action
+move = 7;
+actions = 2;
+
+//initiative
+initiative = dexMod;
 </string>
           </argument>
         </arguments>

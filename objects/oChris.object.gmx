@@ -27,10 +27,10 @@
             <kind>1</kind>
             <string>event_inherited();
 
-name = "Ken";
+name = "Chris";
 
-class = "Fighter";
-race = "Drawf";
+class = "Cleric";
+race = "Human";
 
 //char stats -----------------------------------------
 level = 1;
@@ -39,33 +39,33 @@ level = 1;
 profMod = 2 + floor(level/5);
 
 //strength
-strMod = 3;
+strMod = 2;
 //speed
 dexMod = 0;
 //constitution
-conMod = 2;
+conMod = 1;
 //institution
 intMod = 0;
 //wisdom
-wisMod = 1;
+wisMod = 3;
 
-//health variable
-maxHP = 10 + conMod + ((level-1) * (6+conMod));
+//health
+maxHP = 8 + conMod + ((level-1) * (5+conMod));
 currentHP = maxHP;
 
-//attack variable
+//attack
 hitBonus = profMod + strMod;
 
-//damage var
+//damage
 damageDice = 8;
 damageBonus = strMod;
-damageType = "slash";
+damageType = "bludgeoning";
 
-//defense var
-armorClass = 18;
+//defense
+armorClass = 16;
 
-//move and action variable
-move = 5;
+//move and action
+move = 6;
 actions = 2;
 
 //initiative
