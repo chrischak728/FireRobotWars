@@ -64,20 +64,6 @@ if (gridX &lt; 0 || gridY &lt;0 || gridX &gt; room_width/GRID_SIZE-1 || gridY &g
     hoverNode = global.map[gridX,gridY];
 }
 
-if (mouse_check_button_pressed(mb_left)){
-    if (hoverNode.occupant != noone){
-        if (hoverNode.occupant != selectedActor){
-            selectedActor = hoverNode.occupant;
-            selectedActor.actions = 2;
-            movement_range(hoverNode, selectedActor.move, selectedActor.actions);
-        }
-    } else {
-        selectedActor = noone;
-        //reset all nodes
-        wipe_nodes();
-    }
-}
-
 if (mouse_check_button_pressed(mb_right)){
     if (selectedActor != noone &amp;&amp; hoverNode.moveNode){
         current = hoverNode;
@@ -123,11 +109,19 @@ if (mouse_check_button_pressed(mb_right)){
        }
        
        selectedActor = noone;
-    } else {
-        selectedActor = noone;
-        //reset all nodes
-        wipe_nodes();
     }
+    
+    if(selectedActor != noone &amp;&amp; hoverNode.attackNode){
+        selectedActor.canAct = false;
+        selectedActor.actions--;
+        selectedActor.attackTarget = hoverNode.occupant;
+        selectedActor.state = "begin attack";
+        selectedActor.attackTimer = 10;
+        
+        selectedActor = noone;
+        
+        wipe_nodes();
+    }   
 }
 </string>
           </argument>
@@ -183,12 +177,21 @@ if (hoverNode != noone){
 }
 
 if (selectedActor != noone){
-    tempText = selectedActor.name;
+    tempText = selectedActor.name + " the " + selectedActor.race + " " + selectedActor.class;
+    
+    tempHP = "HP: " + string(selectedActor.currentHP) + "/" + string(selectedActor.maxHP);
+    
+    tempHitBonus = "Hit Bonus: " + string(selectedActor.hitBonus);
+    
     draw_set_color(c_black);
-    draw_rectangle(0,room_height, string_width(tempText), room_height - string_height(tempText), false);
+    draw_rectangle(0,room_height - 32, string_width(tempText), room_height - 32 - string_height(tempText), false);
+    draw_rectangle(0,room_height - 16, string_width(tempHP), room_height - 16 - string_height(tempHP), false);
+    draw_rectangle(0,room_height, string_width(tempHitBonus), room_height - string_height(tempHitBonus), false);    
     
     draw_set_color(c_white);
-    draw_text (0, room_height - string_height(tempText), tempText);    
+    draw_text (0, room_height - 32 - string_height(tempText), tempText);    
+    draw_text (0, room_height - 16 - string_height(tempHP), tempHP);
+    draw_text (0, room_height - string_height(tempHitBonus), tempHitBonus);
     
 }
 </string>
