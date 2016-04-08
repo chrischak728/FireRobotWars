@@ -33,11 +33,13 @@ switch(action){
         
         ds_list_destroy(targets);
         
-        actor.canAct = false;
-        actor.actions -= 1;
-        actor.firstLevelSlot -=1;
-        actor.state = "end action";
-        actor.actionTimer = 15;
+        //actor.canAct = false;
+        //actor.actions -= 1;
+        //actor.firstLevelSlot -=1;
+        //actor.state = "end action";
+        //actor.actionTimer = 15;
+        
+        change_stats_after_action(actor, false, 1, 1, "end action", 15);
         
         break;
     case "Guiding Bolt":
@@ -70,11 +72,13 @@ switch(action){
             path_start(movementPath, speed, true, true);
         }
         
-        actor.firstLevelSlot--;
-        actor.canAct = false;
-        actor.actions--;
-        actor.state = "end action";
-        actor.actionTimer = 30;
+        //actor.firstLevelSlot--;
+        //actor.canAct = false;
+        //actor.actions--;
+        //actor.state = "end action";
+        //actor.actionTimer = 30;
+        
+        change_stats_after_action(actor, false, 1, 1, "end action", 30);
         
         break;
     case "Healing Word":
@@ -92,11 +96,13 @@ switch(action){
             color = c_lime;
         }
         
-        actor.firstLevelSlot-=1;
-        actor.canAct = false;
-        actor.actions -=1;
-        actor.state = "end action";
-        actor.actionTimer = 15;
+        //actor.firstLevelSlot-=1;
+        //actor.canAct = false;
+        //actor.actions -=1;
+        //actor.state = "end action";
+        //actor.actionTimer = 15;
+        
+        change_stats_after_action(actor, false, 1, 1, "end action", 15);
         
         break;
     
@@ -131,11 +137,13 @@ switch(action){
             path_start(movementPath, speed, true, true);
         }
         
-        actor.firstLevelSlot--;
-        actor.canAct = false;
-        actor.actions--;
-        actor.state = "end action";
-        actor.actionTimer = 30;
+        //actor.firstLevelSlot--;
+        //actor.canAct = false;
+        //actor.actions--;
+        //actor.state = "end action";
+        //actor.actionTimer = 30;
+        
+        change_stats_after_action(actor, false, 1, 1, "end action", 30);
         
         break;
     
@@ -165,11 +173,13 @@ switch(action){
         
         ds_list_destroy(targets);
         
-        actor.firstLevelSlot -= 1;
-        actor.canAct = false;
-        actor.actions--;
-        actor.state = "end action";
-        actor.actionTimer = 30;
+        //actor.firstLevelSlot -= 1;
+        //actor.canAct = false;
+        //actor.actions--;
+        //actor.state = "end action";
+        //actor.actionTimer = 30;
+        
+        change_stats_after_action(actor, false, 1, 1, "end action", 30);
         
         break;
     case "Magic Missiles":
@@ -199,11 +209,13 @@ switch(action){
         
         ds_list_destroy(targets);
         
-        actor.firstLevelSlot -=1;
-        actor.canAct = false;
-        actor.actions -= 1;
-        actor.state = "end action";
-        actor.actionTimer = 30;
+        //actor.firstLevelSlot -=1;
+        //actor.canAct = false;
+        //actor.actions -= 1;
+        //actor.state = "end action";
+        //actor.actionTimer = 30;
+        
+        change_stats_after_action(actor, false, 1, 1, "end action", 30);
         
         break;
 }

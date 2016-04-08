@@ -43,6 +43,7 @@
       <script>scripts\perform_action.gml</script>
       <script>scripts\action_targeting.gml</script>
       <script>scripts\attack_roll.gml</script>
+      <script>scripts\change_stats_after_action.gml</script>
     </scripts>
     <scripts name="buttons">
       <script>scripts\create_buttons.gml</script>
@@ -75,16 +76,12 @@
       <object>objects\oTarget</object>
       <object>objects\oKen</object>
     </objects>
-    <objects name="effects and ui">
-      <object>objects\oSelector</object>
-      <object>objects\oDamageText</object>
+    <objects name="effects">
       <object>objects\oBiff</object>
       <object>objects\oArrow</object>
       <object>objects\oRangeAttack</object>
-      <object>objects\oButton</object>
-      <object>objects\oConfirmButton</object>
-      <object>objects\oConfirmBox</object>
       <object>objects\oFlameEmitter</object>
+      <object>objects\oDamageText</object>
       <object>objects\oFlame</object>
       <object>objects\oBless</object>
       <object>objects\oAcidOrb</object>
@@ -94,6 +91,12 @@
       <object>objects\oTerrain</object>
       <object>objects\oRubble</object>
       <object>objects\oWall</object>
+    </objects>
+    <objects name="ui">
+      <object>objects\oSelector</object>
+      <object>objects\oButton</object>
+      <object>objects\oConfirmButton</object>
+      <object>objects\oConfirmBox</object>
     </objects>
   </objects>
   <rooms name="rooms">

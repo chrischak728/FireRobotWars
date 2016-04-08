@@ -47,7 +47,7 @@ switch(button.title){
         actor.targetingType = "visible enemies";
         actor.actionRange = 640;
         
-        with(instance_create(room_width/2, room_height, oConfirmButton)){
+        with(instance_create(room_width/2, room_height, oConfirmBox)){
             title = other.button.title;
             text = other.button.text;
         }
