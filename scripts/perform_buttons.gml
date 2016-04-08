@@ -41,6 +41,21 @@ switch(button.title){
         wipe_buttons();
         
         break;
+    case "GUIDING BOLT":
+        actor.state = "begin action";
+        actor.readiedAction = "Guiding Bolt";
+        actor.targetingType = "visible enemies";
+        actor.actionRange = 640;
+        
+        with(instance_create(room_width/2, room_height, oConfirmButton)){
+            title = other.button.title;
+            text = other.button.text;
+        }
+        
+        wipe_nodes();
+        wipe_buttons();
+        
+        break;
     case "HEALING WORD":
         actor.state = "begin action";
         actor.readiedAction = "Healing Word";

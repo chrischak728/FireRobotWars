@@ -7,6 +7,12 @@ target = argument1;
 roll = actor.attackRoll;
 status = "miss";
 
+if(target.guidingBolt){
+    roll = max(roll, irandom_range(1,20));
+    
+    guidingBolt = false;
+}
+
 if(actor.attackRoll == 20){
     status = "crit";
 } else {

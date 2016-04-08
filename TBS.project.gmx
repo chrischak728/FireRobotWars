@@ -15,6 +15,7 @@
     </sprites>
     <sprites name="effects">
       <sprite>sprites\sArrow</sprite>
+      <sprite>sprites\sGuidingBolt</sprite>
       <sprite>sprites\sBiff</sprite>
       <sprite>sprites\sFlame</sprite>
       <sprite>sprites\sSelected</sprite>
@@ -87,6 +88,7 @@
       <object>objects\oFlame</object>
       <object>objects\oBless</object>
       <object>objects\oAcidOrb</object>
+      <object>objects\oGuidingBolt</object>
     </objects>
     <objects name="nodes and terrain">
       <object>objects\oTerrain</object>

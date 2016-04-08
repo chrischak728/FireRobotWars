@@ -32,15 +32,6 @@ for(ii=0; ii<ds_list_size(buttonList);ii++){
             break;
             
         //cleric spells ------------------
-        case "Healing Word":
-            with(instance_create(buttonX+ (ii*96), buttonY, oButton)){
-                title = "HEALING WORD";
-                text = "Right click  an ally in range to heal them!#1d8" + string(other.actor.wisMod)+" HEALING";
-                hotkey = string(other.ii+1);
-                spell = true;
-                spellSlot = string(other.actor.firstLevelSlot);
-            }  
-            break;
         case "Bless":
             with(instance_create(buttonX+ (ii*96), buttonY, oButton)){
                 title = "BLESS";
@@ -50,6 +41,25 @@ for(ii=0; ii<ds_list_size(buttonList);ii++){
                 spellSlot = string(other.actor.firstLevelSlot);
             }  
             break;
+        case "Guiding Bolt":
+            with(instance_create(buttonX+ (ii*96), buttonY, oButton)){
+                title = "GUIDING BOLT";
+                text = "Right click an enemy to fire a bolt!#4d6 RADIANT damage#bonus on next attack against target!";
+                hotkey = string(other.ii+1);
+                spell = true;
+                spellSlot = string(other.actor.firstLevelSlot);
+            }  
+            break;
+        case "Healing Word":
+            with(instance_create(buttonX+ (ii*96), buttonY, oButton)){
+                title = "HEALING WORD";
+                text = "Right click  an ally in range to heal them!#1d8" + string(other.actor.wisMod)+" HEALING";
+                hotkey = string(other.ii+1);
+                spell = true;
+                spellSlot = string(other.actor.firstLevelSlot);
+            }  
+            break;
+        
         
         //wizard spelss -----------------
         case "Acid Orb":

@@ -62,9 +62,6 @@ hitBonus = profMod + strMod;
 attackType = "melee";
 attackTarget = noone;
 
-//attackRoll ?? dunno if
-attackRoll = 0;
-
 actionTimer = 0;
 
 //damage variable
@@ -118,6 +115,7 @@ blessed = 0;
 
 //debuff
 acidBurn = 0;
+guidingBolt = false;
 
 //special effect
 shake = 0;
