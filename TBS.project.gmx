@@ -25,6 +25,10 @@
     <sprites name="Actors">
       <sprite>sprites\sTarget</sprite>
       <sprite>sprites\char1</sprite>
+      <sprite>sprites\char1_right</sprite>
+      <sprite>sprites\char1_left</sprite>
+      <sprite>sprites\char1_top</sprite>
+      <sprite>sprites\char1_down</sprite>
     </sprites>
     <sprites name="Nodes and terrain">
       <sprite>sprites\sNode</sprite>

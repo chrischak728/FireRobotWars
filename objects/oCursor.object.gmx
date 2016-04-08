@@ -63,7 +63,7 @@ y = mouse_y;
 gridX = floor(x/GRID_SIZE);
 gridY = floor(y/GRID_SIZE);
 
-if (gridX &lt; 0 || gridY &lt;0 || gridX &gt; room_width/GRID_SIZE-1 || gridY &gt; room_height/GRID_SIZE-1){
+if (gridX &lt; 0 || gridY &lt;0 || gridX &gt; floor(room_width/GRID_SIZE)-1 || gridY &gt; floor(room_height/GRID_SIZE)-1){
     hoverNode = noone;
 } else {
     hoverNode = global.map[gridX,gridY];
@@ -135,7 +135,7 @@ if (mouse_check_button_pressed(mb_left)){
     }
 }
 
-if (mouse_check_button_pressed(mb_right) &amp;&amp; hoverNode!=noone){
+if (mouse_check_button_pressed(mb_right)){
     if (selectedActor != noone &amp;&amp; hoverNode.moveNode){
         current = hoverNode;
         

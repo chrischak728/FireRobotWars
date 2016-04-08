@@ -42,7 +42,7 @@ while (ds_priority_size(open) > 0) {
                 
                 //if node is diagonal, modify costmod var
                 if (neighbor.gridX != current.gridX && neighbor.gridY != current.gridY){
-                    costMod = 1.5
+                    costMod = 2
                 }
                 //calc G of neighbor with costMod in place.
                 neighbor.G = current.G + (neighbor.cost * costMod);

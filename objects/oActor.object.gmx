@@ -120,6 +120,13 @@ guidingBolt = false;
 //special effect
 shake = 0;
 shakeMag = 0;
+
+//sprite index
+spIdle = char1;
+spTop = char1_top;
+spLeft = char1_left;
+spDown = char1_down;
+spRight = char1_right;
 </string>
           </argument>
         </arguments>
@@ -493,7 +500,20 @@ if(endPath=="ready"){
 if(shake&gt;0){
     draw_sprite_ext(sprite_index, -1, x+irandom_range(-shakeMag,shakeMag), y+irandom_range(-shakeMag, shakeMag), 1, 1, 0, c_white, 1)
 } else {
-    draw_self();    
+    if(state="moving"){
+        if (direction &gt;= 315 || direction &lt;= 45){
+            sprite_index = spRight;
+        } else if (direction &gt; 45 &amp;&amp; direction &lt; 135){
+            sprite_index = spTop;
+        } else if (direction &gt;=135 &amp;&amp; direction &lt;= 225){
+           sprite_index = spLeft;
+        } else if (direction &gt;225 &amp;&amp; direction &lt; 315){
+            sprite_index = spDown;
+        }
+    } else {
+        sprite_index = spIdle;
+    }
+    draw_self(); 
 }
 
 </string>
