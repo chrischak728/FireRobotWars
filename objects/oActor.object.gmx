@@ -61,7 +61,11 @@ currentHP = maxHP;
 hitBonus = profMod + strMod;
 attackType = "melee";
 attackTarget = noone;
-attackTimer = 0;
+
+//attackRoll ?? dunno if
+attackRoll = 0;
+
+actionTimer = 0;
 
 //damage variable
 damageDice = 4;
@@ -76,19 +80,46 @@ move = 6;
 actions = 2;
 canAct = false;
 
+//special action
+charge = false;
+sneakAttack = false;
+
+//spell and action
+spellHitBonus = 0;
+spellSaveDC = 0;
+
+firstLevelSlotMax = 0;
+firstLevelSlot = 0;
+
+readiedAction = "error";
+targetingType = "error";
+actionRange = 0;
+
 //init stats
 initiative = dexMod;
 initRoll = 0;
+
+//button
+defaultActions = ds_list_create();
+ds_list_add(defaultActions, "end turn");
 
 //pathing ------------------------------
 movementPath = path_add();
 path_set_kind(movementPath, 2);
 path_set_closed(movementPath, false);
 
+endPath = "idle";
+
 //animation
 moveSpeed = 8;
 
-//effect
+//buff
+blessed = 0;
+
+//debuff
+acidBurn = 0;
+
+//special effect
 shake = 0;
 shakeMag = 0;
 </string>
@@ -116,41 +147,98 @@ shakeMag = 0;
             <string>shake -= 1;
 
 switch (state){
+    case "initialize turn":
+        //handle buff and debuff
+        if(blessed &gt; oGame.roundCounter){
+            with(instance_create(x, y, oBless)){
+                target = other;
+            }
+        } else {
+            blessed = 0;
+        }
+        
+        if(acidBurn &gt; 0){
+            damage = irandom_range(1, 4);
+            
+            with(instance_create(x+18, y+2, oDamageText)){
+                text = "-" + string(other.damage);
+                ground = y;
+            }
+            
+            currentHP -= damage;
+            acidBurn--;
+        }
+        
+        if(army==BLUE_ARMY){ //allies
+            movement_range(map[gridX,gridY], move, actions);
+            
+            switch(attackType){
+                case "melee":
+                    melee_attack_range(id);
+                    break;
+                case "ranged":
+                    ranged_attack_range(id);
+                    break;
+            }
+            
+            oCursor.selectedActor = id;
+        } else { //enemies
+            flash = true;
+            alarm[0] = 30;
+        }
+        
+        state = "ready";
+        
+        break;
     case "begin path": 
         //begin move
         path_start(movementPath, moveSpeed, 0, true);
         state = "moving";
         break;
     case "begin attack":
-        attackTimer--;
-        if(attackTimer&lt;=0){
+        actionTimer--;
+        if(actionTimer&lt;=0){
             state = "attack";
         }
         break;
     case "attack":
-        switch(attackType){
-            case "ranged":
-                attackRoll = irandom_range(1, 20);
+        attackRoll = irandom_range(1, 20);
+        
+        applySneakAttack = false;
+        
+        if(sneakAttack){
+            tempNode = map[attackTarget.gridX, attackTarget.gridY];
+            
+            for(ii=0;ii&lt;ds_list_size(tempNode.neighbors);ii++){
+                current = ds_list_find_value(tempNode.neighbors, ii);
                 
-                if(attackRoll == 20){
-                    attackStatus = "crit";
-                } else {
-                    if(attackRoll + hitBonus &gt;  attackTarget.armorClass){
-                        attackStatus = "hit";
-                    } else {
-                        attackStatus = "miss";
-                    }
+                if(current.occupant!=noone &amp;&amp; current.occupant.army!=tempNode.occupant.army){
+                    applySneakAttack = true;
                 }
-                
-                tempDamage = 10;
-                if(attackStatus!="miss"){
-                    tempDamage = irandom_range(1, damageDice) + damageBonus;
-                    
-                    if(attackStatus=="crit"){
-                        tempDamage += irandom_range(1, damageDice);
-                    }
+            }
+        }
+            
+        attackStatus = attack_roll(id, attackTarget);
+        
+        tempDamage = 0;
+        
+        //make damage roll
+        if(attackStatus!="miss"){
+            tempDamage = irandom_range(1, damageDice) + damageBonus;
+            
+            if(applySneakAttack){
+                tempDamage += irandom_range(1, sneakAttackDamage);
+            }
+            
+            if(attackStatus=="crit"){
+                tempDamage += irandom_range(1, damageDice);
+                if(applySneakAttack){
+                    tempDamage += irandom_range(1, sneakAttackDamage);
                 }
-                
+            }
+        }
+        switch(attackType){            
+            case "ranged":                
                 attackDir = point_direction(x+16, y+16, attackTarget.x+16, attackTarget.y+16);
                 
                 beginX = x + 16 + lengthdir_x(30, attackDir);
@@ -174,12 +262,66 @@ switch (state){
                 }
                 
                 state = "end attack";
+                
+                actionTimer = 30;
+                
+                break;
+                
+            case "melee":
+                if(attackStatus!="miss"){
+                    for(ii=0;ii&lt;6;ii++){
+                        with(instance_create(attackTarget.x+16, attackTarget.y+16, oBiff)){
+                            direction = irandom(360);
+                            speed = choose(2,4);
+                            scale = choose(2,3);
+                            
+                            image_speed = 0.5;
+                            
+                            if(other.attackStatus == "crit"){
+                                color = c_yellow;
+                            }
+                        }
+                    }
+                    
+                    if(attackStatus == "crit"){
+                        attackTarget.shake = 8;
+                        attackTarget.shakeMag = 8;
+                    } else {
+                        attackTarget.shake = 4;
+                        attackTarget.shakeMag = 4;
+                    }
+                    
+                    attackTarget.currentHP -= tempDamage;
+                    
+                    with(instance_create(attackTarget.x+28, attackTarget.y+2, oDamageText)){
+                        text = "-" + string(other.tempDamage);
+                        
+                        ground = y;
+                        
+                        if(other.attackStatus == "crit"){
+                            font = fCrit;
+                        }
+                    }
+                } else {
+                    with(instance_create(attackTarget.x+28, attackTarget.y+2, oDamageText)){
+                        text = "miss";
+                        
+                        ground = y;
+                    }
+                
+                
+                }
+                
+                state = "end attack";
+                
+                attackTime = 10;
+                
                 break;
         }
         break;
     case "end attack":
-            attackTimer -= 1;
-            if(attackTimer&lt;=0){
+            actionTimer -= 1;
+            if(actionTimer&lt;=0){
                 if(actions&gt;0){
                     oCursor.selectedActor = id;
                     
@@ -192,6 +334,40 @@ switch (state){
             }
         break;
     
+    case "begin action":
+        wipe_nodes();
+        action_targeting(id, targetingType, actionRange);
+        
+        break;
+        
+    case "perform action":
+        perform_action(id, readiedAction);
+        wipe_nodes();
+        break;
+        
+    case "end action":
+        actionTimer -=1;
+        if(actionTimer &lt;=0 ){
+            state = "idle";
+            
+            if(actions&gt;0){
+                movement_range(map[gridX, gridY], move, actions);
+            } else {
+                state = "idle";
+                oCursor.selectedActor = noone;
+                oGame.currentActor = noone;
+            }
+        }
+        break;
+        
+    case "end turn":
+        actionTimer -=1;
+        if(actionTimer &lt;=0){
+            oCursor.selectedActor = noone;
+            oGame.currentActor = noone;
+            state = "idle";
+        }
+        break;
 }
 </string>
           </argument>
@@ -218,22 +394,30 @@ switch (state){
             <string>//clear path
 path_clear_points(movementPath);
 
-state = "idle";
+if(endPath=="ready"){
+    state = "idle";
 
-//remaining moves:
-if (actions&gt;0){
-    oCursor.selectedActor = id;
-    movement_range(map[gridX, gridY], move, actions);
-    
-    if(canAct){
-        switch(attackType){
-            case "ranged":
-                ranged_attack_range(id);
-                break;
+    //remaining moves:
+    if (actions&gt;0){
+        oCursor.selectedActor = id;
+        movement_range(map[gridX, gridY], move, actions);
+        
+        if(canAct){
+            switch(attackType){
+                case "ranged":
+                    ranged_attack_range(id);
+                    break;
+                case "melee":
+                    melee_attack_range(id);
+                    break;
+            }
         }
+    } else {
+        oGame.currentActor = noone;
     }
+
 } else {
-    oGame.currentActor = noone;
+    state = endPath;
 }
 </string>
           </argument>
@@ -257,7 +441,7 @@ if (actions&gt;0){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(oCursor.selectedActor == id){
+            <string>if(oCursor.selectedActor == id &amp;&amp; oCursor.hoverNode!=noone){
     tempNode = oCursor.hoverNode;
     if (tempNode.moveNode){
         current = oCursor.hoverNode;
@@ -275,6 +459,34 @@ if (actions&gt;0){
         switch(attackType){
             case "ranged":
                 draw_line_width_colour(x+16, y+16, tempNode.x+16, tempNode.y+16, 4, c_purple, c_purple);
+                break;
+            
+            case "melee":
+                tempX = abs(tempNode.gridX - gridX);
+                tempY = abs(tempNode.gridY - gridY);
+                
+                if(tempX&lt;=1 &amp;&amp; tempY&lt;=1){
+                    draw_line_width_colour(x+16, y+16, tempNode.x+16, tempNode.y+16, 4, c_purple, c_purple);
+                } else {
+                    current = noone;
+                    tempG = 100;
+                    
+                    for(ii=0; ii&lt;ds_list_size(tempNode.neighbors);ii++){
+                        neighbor = ds_list_find_value(tempNode.neighbors, ii);
+                        
+                        if(neighbor.occupant==noone &amp;&amp; neighbor.G &gt;0 &amp;&amp; neighbor.G&lt;tempG){
+                            tempG = neighbor.G;
+                            current = neighbor;
+                        }
+                    }
+                    
+                    draw_line_width_colour(tempNode.x+16, tempNode.y+16, current.x+16, current.y+16, 4, c_purple, c_purple);
+                    
+                    while(current.parent!=noone){
+                        draw_line_width_colour(current.x+16, current.y+16, current.parent.x+16, current.parent.y+16, 4, c_purple, c_purple);
+                        current = current.parent;
+                    }
+                }
                 break;
         }
     }

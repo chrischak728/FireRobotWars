@@ -6,16 +6,30 @@
   <NewExtensions/>
   <sounds name="sound"/>
   <sprites name="sprites">
-    <sprite>sprites\sNode</sprite>
-    <sprite>sprites\sCursor</sprite>
-    <sprite>sprites\sSelected</sprite>
-    <sprite>sprites\char1</sprite>
-    <sprite>sprites\sWall</sprite>
-    <sprite>sprites\sRubble</sprite>
     <sprite>sprites\sprite9</sprite>
-    <sprite>sprites\sTarget</sprite>
-    <sprite>sprites\sBiff</sprite>
-    <sprite>sprites\sArrow</sprite>
+    <sprites name="button and UI">
+      <sprite>sprites\sButtonEndTurn</sprite>
+      <sprite>sprites\sConfirmButton</sprite>
+      <sprite>sprites\sButtonDefault</sprite>
+      <sprite>sprites\sCursor</sprite>
+    </sprites>
+    <sprites name="effects">
+      <sprite>sprites\sArrow</sprite>
+      <sprite>sprites\sBiff</sprite>
+      <sprite>sprites\sFlame</sprite>
+      <sprite>sprites\sSelected</sprite>
+      <sprite>sprites\sBless</sprite>
+      <sprite>sprites\sAcidOrb</sprite>
+    </sprites>
+    <sprites name="Actors">
+      <sprite>sprites\sTarget</sprite>
+      <sprite>sprites\char1</sprite>
+    </sprites>
+    <sprites name="Nodes and terrain">
+      <sprite>sprites\sNode</sprite>
+      <sprite>sprites\sWall</sprite>
+      <sprite>sprites\sRubble</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\background0</background>
@@ -24,31 +38,61 @@
   <scripts name="scripts">
     <script>scripts\wipe_nodes.gml</script>
     <script>scripts\color_move_node.gml</script>
-    <script>scripts\movement_range.gml</script>
-    <script>scripts\ranged_attack_range.gml</script>
+    <scripts name="Actions and spell">
+      <script>scripts\perform_action.gml</script>
+      <script>scripts\action_targeting.gml</script>
+      <script>scripts\attack_roll.gml</script>
+    </scripts>
+    <scripts name="buttons">
+      <script>scripts\create_buttons.gml</script>
+      <script>scripts\perform_buttons.gml</script>
+      <script>scripts\wipe_buttons.gml</script>
+    </scripts>
+    <scripts name="pathing and rangefinding">
+      <script>scripts\movement_range.gml</script>
+      <script>scripts\melee_attack_range.gml</script>
+      <script>scripts\create_path.gml</script>
+      <script>scripts\ranged_attack_range.gml</script>
+      <script>scripts\fill_spell_list.gml</script>
+    </scripts>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fDefault</font>
     <font>fonts\fDamage</font>
     <font>fonts\fCrit</font>
+    <font>fonts\fHotKey</font>
   </fonts>
   <objects name="objects">
+    <object>objects\oActor</object>
     <object>objects\oNode</object>
     <object>objects\oGame</object>
     <object>objects\oCursor</object>
-    <object>objects\oActor</object>
-    <object>objects\oKen</object>
-    <object>objects\oChris</object>
-    <object>objects\oShayne</object>
-    <object>objects\oGavin</object>
-    <object>objects\oTerrain</object>
-    <object>objects\oWall</object>
-    <object>objects\oRubble</object>
-    <object>objects\oTarget</object>
-    <object>objects\oDamageText</object>
-    <object>objects\oBiff</object>
-    <object>objects\oRangeAttack</object>
-    <object>objects\oArrow</object>
+    <objects name="actors">
+      <object>objects\oGavin</object>
+      <object>objects\oShayne</object>
+      <object>objects\oChris</object>
+      <object>objects\oTarget</object>
+      <object>objects\oKen</object>
+    </objects>
+    <objects name="effects and ui">
+      <object>objects\oSelector</object>
+      <object>objects\oDamageText</object>
+      <object>objects\oBiff</object>
+      <object>objects\oArrow</object>
+      <object>objects\oRangeAttack</object>
+      <object>objects\oButton</object>
+      <object>objects\oConfirmButton</object>
+      <object>objects\oConfirmBox</object>
+      <object>objects\oFlameEmitter</object>
+      <object>objects\oFlame</object>
+      <object>objects\oBless</object>
+      <object>objects\oAcidOrb</object>
+    </objects>
+    <objects name="nodes and terrain">
+      <object>objects\oTerrain</object>
+      <object>objects\oRubble</object>
+      <object>objects\oWall</object>
+    </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\lvl_1</room>

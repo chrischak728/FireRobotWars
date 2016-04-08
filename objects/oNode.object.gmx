@@ -43,6 +43,7 @@ parent = noone;
 G = 0;
 moveNode = false;
 attackNode = false;
+actionNode = false;
 
 </string>
           </argument>

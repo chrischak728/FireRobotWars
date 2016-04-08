@@ -3,7 +3,7 @@
   <spriteName>sCursor</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>-1</depth>
+  <depth>-6</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -29,7 +29,12 @@
 gridY=0;
 
 hoverNode = noone;
+hoverButton = noone;
+buttonTimer = 0;
+
 selectedActor = noone;
+
+instance_create(0,0,oSelector);
 </string>
           </argument>
         </arguments>
@@ -64,28 +69,77 @@ if (gridX &lt; 0 || gridY &lt;0 || gridX &gt; room_width/GRID_SIZE-1 || gridY &g
     hoverNode = global.map[gridX,gridY];
 }
 
-if (mouse_check_button_pressed(mb_right)){
+with(oConfirmButton){
+    if(keyboard_check_pressed(vk_enter) || keyboard_check_pressed(ord(hotkey))){
+        other.selectedActor.state = "perform action";
+        instance_destroy();
+    }
+}
+
+if (instance_place(x, y, oButton)){
+    if(instance_place(x, y, oButton) == hoverButton){
+        buttonTimer++;
+    } else {
+        buttonTimer = 0;
+    }
+    hoverButton = instance_place(x,y,oButton);
+    hoverNode = noone;
+} else {
+    hoverButton = noone;
+    buttonTimer = 0;
+}
+
+//after confirm button key event
+with(oButton){
+    if(keyboard_check_pressed(ord(hotkey))){
+        perform_buttons(oCursor.selectedActor, id);
+    }    
+}
+
+if(keyboard_check_pressed(vk_escape)){
+    if(selectedActor.state == "begin action"){
+        selectedActor.state = "idle";
+        with(oConfirmButton){
+            instance_destroy();
+        }
+        with(oConfirmBox){
+            instance_destroy();
+        }
+    }
+    
+    wipe_nodes();
+    movement_range(map[selectedActor.gridX, selectedActor.gridY], selectedActor.move, selectedActor.actions);
+    
+    if(selectedActor.canAct){
+        switch(selectedActor.attackType){
+            case "ranged":
+                ranged_attack_range(selectedActor);
+                break;
+            case "melee":
+                melee_attack_range(selectedActor);
+                break;
+        }
+    }
+}
+
+if (mouse_check_button_pressed(mb_left)){
+    if(selectedActor!=noone &amp;&amp; hoverButton!=noone){
+        perform_buttons(selectedActor, hoverButton);
+    }
+    
+    if(instance_place(x, y, oConfirmButton)){
+        selectedActor.state = "perform action";
+        with(oConfirmButton){
+            instance_destroy();
+        }
+    }
+}
+
+if (mouse_check_button_pressed(mb_right) &amp;&amp; hoverNode!=noone){
     if (selectedActor != noone &amp;&amp; hoverNode.moveNode){
         current = hoverNode;
-        //**create priority queue
-        path = ds_priority_create();
         
-        //add 1st node to queue  priority = G
-        ds_priority_add(path,current,current.G);
-        //scan through all parent to parent
-        while (current.parent != noone){
-            ds_priority_add(path, current.parent, current.parent.G);
-            //next
-            current = current.parent;
-        }
-        do {
-            //delete lowest priority node
-            current = ds_priority_delete_min(path);
-            //add current node's sprite
-            path_add_point(selectedActor.movementPath, current.x, current.y, 100);
-        } until(ds_priority_empty(path));
-       //free path memory
-       ds_priority_destroy(path);
+        create_path(selectedActor, current);
        
        //clear selectedActor node
        map[selectedActor.gridX, selectedActor.gridY].occupant = noone;
@@ -97,31 +151,108 @@ if (mouse_check_button_pressed(mb_right)){
        hoverNode.occupant = selectedActor;
        
        selectedActor.state = "begin path";
+       selectedActor.endPath = "ready";
        
        //reduce selectedActor actions adn clear nodes
        
        if (hoverNode.G &gt; selectedActor.move){
             selectedActor.actions -=2;
             wipe_nodes();
+            wipe_buttons();
        } else {
             selectedActor.actions --;
             wipe_nodes();
+            wipe_buttons();
        }
        
        selectedActor = noone;
-    }
+    } //move node end
     
     if(selectedActor != noone &amp;&amp; hoverNode.attackNode){
-        selectedActor.canAct = false;
-        selectedActor.actions--;
-        selectedActor.attackTarget = hoverNode.occupant;
-        selectedActor.state = "begin attack";
-        selectedActor.attackTimer = 10;
+        switch(selectedActor.attackType){
+            case "ranged":
+                selectedActor.canAct = false;
+                selectedActor.actions--;
+                selectedActor.attackTarget = hoverNode.occupant;
+                selectedActor.state = "begin attack";
+                selectedActor.actionTimer = 10;
+                
+                selectedActor = noone;
+                
+                wipe_nodes();
+                wipe_buttons();
+                break;
+            
+            case "melee":
+                selectedActor.canAct = false;
+                selectedActor.attackTarget = hoverNode.occupant;
+                
+                tempX = abs(hoverNode.gridX - selectedActor.gridX);
+                tempY = abs(hoverNode.gridY - selectedActor.gridY);
+                
+                if(tempX &lt;= 1 &amp;&amp; tempY &lt;=1){
+                    selectedActor.actions--;
+                    selectedActor.state = "begin attack";
+                    selectedActor.actionTimer = 10;
+                    
+                    selectedActor = noone;
+                    wipe_nodes();
+                    wipe_buttons();
+                } else {
+                    tempG = 100;
+                    current = noone;
+                    
+                    for(ii=0; ii&lt;ds_list_size(hoverNode.neighbors);ii++){
+                        tempNode = ds_list_find_value(hoverNode.neighbors, ii);
+                        
+                        if(tempNode.occupant == noone &amp;&amp; tempNode.G &gt; 0 &amp;&amp; tempNode.G &lt; tempG){
+                            tempG = tempNode.G;
+                            current = tempNode;
+                        }
+                    }
+                    
+                    targetNode = current;
+                    
+                    create_path(selectedActor, targetNode);
+                    
+                    //clear selectedActor node
+                   map[selectedActor.gridX, selectedActor.gridY].occupant = noone;
+                   
+                   //update selected actor pos
+                   selectedActor.gridX = targetNode.gridX;
+                   selectedActor.gridY = targetNode.gridY;
+                   
+                   //update selectedActor's future node
+                   targetNode.occupant = selectedActor;
+                   
+                   //send actor on its way
+                   selectedActor.state = "begin path";
+                   selectedActor.endPath = "begin attack";
+                   
+                   selectedActor.attackTarget = hoverNode.occupant;
+                   selectedActor.actions-=2;
+                   selectedActor.canAct = false;
+                   
+                   selectedActor = noone;
+                   wipe_nodes();
+                   wipe_buttons();
+                }
+                
+                break;
+            
+        } 
         
-        selectedActor = noone;
-        
-        wipe_nodes();
-    }   
+    }   //attack node end
+    
+    if(hoverNode.actionNode){
+        selectedActor.state = "perform action";
+        with(oConfirmBox){
+            instance_destroy();
+        }
+        with(oConfirmButton){
+            instance_destroy();
+        }
+    }
 }
 </string>
           </argument>
@@ -145,36 +276,29 @@ if (mouse_check_button_pressed(mb_right)){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (hoverNode != noone){
-    draw_sprite(sSelected, -1, gridX * GRID_SIZE, gridY * GRID_SIZE);
-}
-draw_self();
-if (hoverNode != noone){
-    tempText = string (gridX) + " / " + string (gridY) + " = ";
+            <string>if(hoverButton!=noone &amp;&amp; buttonTimer&gt;15){
+    tempTitle = hoverButton.title;
+    tempText = hoverButton.text;
     
-    if (hoverNode.occupant != noone){
-        tempText += hoverNode.occupant.name;
-    } else {
-        tempText += "noone";
-    }
+    draw_set_font(fCrit);
+    
+    heightY = string_height(tempTitle) + string_height(tempText);
+    
+    draw_set_color(c_black);
+    draw_rectangle(x+20, y-heightY, x+20 + string_width(tempTitle), y-heightY + string_height(tempTitle), false);
+    
+    draw_set_color(c_white);
+    draw_text(x+20, y-heightY, tempTitle);
+    
+    draw_set_font(fDefault);
+    draw_set_color(c_black);
+    draw_rectangle(x+20, y-string_height(tempText), x+20 + string_width(tempText), y, false);
+    
+    draw_set_color(c_white);
+    draw_text(x+20, y-string_height(tempText), tempText);
+}
 
-    draw_set_color(c_black);
-    draw_rectangle(0,0, string_width(tempText), string_height(tempText), false);
-    draw_set_color(c_white);
-    draw_text(0,0,tempText);
-    
-    tempText = hoverNode.type;
-    
-    if (hoverNode.passable){
-        tempText += "passable = true || cost = " + string (hoverNode.cost);
-    }
-    
-    draw_set_color(c_black);
-    draw_rectangle(0,20, string_width(tempText), 20+string_height(tempText), false);
-    draw_set_color(c_white);
-    draw_text(0,20,tempText);
-    
-}
+draw_self();
 
 if (selectedActor != noone){
     tempText = selectedActor.name + " the " + selectedActor.race + " " + selectedActor.class;
@@ -184,14 +308,14 @@ if (selectedActor != noone){
     tempHitBonus = "Hit Bonus: " + string(selectedActor.hitBonus);
     
     draw_set_color(c_black);
-    draw_rectangle(0,room_height - 32, string_width(tempText), room_height - 32 - string_height(tempText), false);
-    draw_rectangle(0,room_height - 16, string_width(tempHP), room_height - 16 - string_height(tempHP), false);
-    draw_rectangle(0,room_height, string_width(tempHitBonus), room_height - string_height(tempHitBonus), false);    
+    draw_rectangle(0,0, string_width(tempText), string_height(tempText), false);
+    draw_rectangle(0,16, string_width(tempHP), 16 + string_height(tempHP), false);
+    draw_rectangle(0,32, string_width(tempHitBonus), 32 + string_height(tempHitBonus), false);    
     
     draw_set_color(c_white);
-    draw_text (0, room_height - 32 - string_height(tempText), tempText);    
-    draw_text (0, room_height - 16 - string_height(tempHP), tempHP);
-    draw_text (0, room_height - string_height(tempHitBonus), tempHitBonus);
+    draw_text (0, 0, tempText);    
+    draw_text (0, 16, tempHP);
+    draw_text (0, 32, tempHitBonus);
     
 }
 </string>

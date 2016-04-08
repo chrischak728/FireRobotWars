@@ -70,6 +70,10 @@ armorClass = 15;
 move = 7;
 actions = 2;
 
+//special action
+sneakAttack = true;
+sneakAttackDamage = 6;
+
 //initiative
 initiative = dexMod;
 </string>

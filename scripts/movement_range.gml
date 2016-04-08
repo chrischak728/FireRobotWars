@@ -87,4 +87,6 @@ for (i=0;i <ds_list_size(closed); i++){
 //destroy closed list
 ds_list_destroy(closed);
 
+start.moveNode = false;
 
+create_buttons(start.occupant);

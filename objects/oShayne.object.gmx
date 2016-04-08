@@ -63,6 +63,17 @@ damageDice = 10;
 damageBonus = 0;
 damageType = "fire";
 
+//spell and action
+spellHitBonus = profMod + intMod;
+spellSaveDC = 8 + intMod + profMod;
+
+firstLevelSlotMax = 2;
+firstLevelSlot = 2;
+
+firstLevelSpellList = ds_list_create();
+
+fill_spell_list(id, level, class);
+
 //defense
 armorClass = 10 + dexMod;
 

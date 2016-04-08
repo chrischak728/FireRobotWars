@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>-3</depth>
+  <depth>0</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -25,21 +25,82 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>font = fDamage;
+            <string>target = noone;
 
-ground = 0;
+saveDC = 0;
 
-vspd = 3;
+damage = 0;
 
-grav = 1;
+emitting = true;
 
-text = "Error";
+alarm[0] = 10;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(target!=noone){
+    roll = irandom_range(1,20);
+    
+    if(roll + target.dexMod &gt; saveDC){
+        damage = ceil(damage/2);
+    }
+    
+    with(instance_create(x+10, y-12, oDamageText)){
+        ground = y;
+        text = "-" + string(other.damage);
+    }
+    
+    target.currentHP -= damage;
+    
+    target.shake = 4;
+    target.shakeMag = 4;
+    
 
-fade = false;
+}
+instance_destroy();
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>emitting = false;
 
-alpha = 1;
-
-color = c_red;
+alarm[1] = 10;
 </string>
           </argument>
         </arguments>
@@ -62,50 +123,11 @@ color = c_red;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>y -= vspd;
-
-vspd -= grav;
-
-if(y&gt;=ground){
-    y=ground;
-    grav = 0;
-    fade = true;
+            <string>if(emitting){
+    for(ii=0;ii&lt;4;ii++){
+        instance_create(x + irandom_range(-10, 10), y+ irandom_range(-10, 10), oFlame);
+    }
 }
-
-if(fade){
-    alpha -= 0.1;
-}
-
-if(alpha &lt;=0 ){
-    instance_destroy();
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="8" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>draw_set_font(font);
-
-draw_text_colour(x, y, text, color, color, color, color, alpha);
-
-draw_set_font(fDefault);
 </string>
           </argument>
         </arguments>

@@ -68,6 +68,10 @@ armorClass = 18;
 move = 5;
 actions = 2;
 
+//special action
+charge = true;
+
+
 //initiative
 initiative = dexMod;
 </string>
