@@ -177,26 +177,42 @@ instance_create(0, 0,oCursor);
         
     case "ready":
         if(currentActor == noone){
-            turnCounter++;
+            if(check_game_over()!=false){
+                state = "end";    
+            } else {
         
-            if(turnCounter &gt;= turnMax){
-                turnCounter = 0;
-                roundCounter++;
+                turnCounter++;
+            
+                if(turnCounter &gt;= turnMax){
+                    turnCounter = 0;
+                    roundCounter++;
+                }
+                
+                show_debug_message("turnCounter: "+string(turnCounter)+"/ turnMax: "+string(turnMax)+"/ list_size"+string(ds_list_size(turnOrder)));
+                
+                currentActor = ds_list_find_value(turnOrder, turnCounter);
+                
+                currentActor.actions = 2;
+                currentActor.canAct = true;
+                
+                currentActor.state = "initialize turn";
+            
             }
-            
-            currentActor = ds_list_find_value(turnOrder, turnCounter);
-            
-            currentActor.actions = 2;
-            currentActor.canAct = true;
-            
-            currentActor.state = "initialize turn";
         }    
     
         break;
         
-        
-        
-        
+    case "end":
+        //show game over message
+        if(check_game_over()==GAME_LOSE){
+            win = false;
+        } else if(check_game_over()==GAME_WIN){
+            win = true;
+        }
+        with(instance_create(room_width/2, room_height, oGameOverMessage)){
+            win = other.win;
+        }
+        break;
         
 }
 </string>

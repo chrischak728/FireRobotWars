@@ -61,6 +61,12 @@
       <script>scripts\ranged_attack_range.gml</script>
       <script>scripts\fill_spell_list.gml</script>
     </scripts>
+    <scripts name="text">
+      <script>scripts\get_target_text.gml</script>
+    </scripts>
+    <scripts name="game over">
+      <script>scripts\check_game_over.gml</script>
+    </scripts>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fDefault</font>
@@ -101,15 +107,19 @@
       <object>objects\oButton</object>
       <object>objects\oConfirmButton</object>
       <object>objects\oConfirmBox</object>
+      <object>objects\oGameOverMessage</object>
     </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\lvl_1</room>
   </rooms>
-  <constants number="3">
+  <constants number="6">
     <constant name="GRID_SIZE">32</constant>
     <constant name="BLUE_ARMY">0</constant>
     <constant name="RED_ARMY">1</constant>
+    <constant name="GAME_LOSE">997</constant>
+    <constant name="GAME_WIN">998</constant>
+    <constant name="GAME_OVER">999</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

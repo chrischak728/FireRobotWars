@@ -66,8 +66,6 @@ path_set_kind(movementPath, 2);
           <argument>
             <kind>1</kind>
             <string>if(status!="miss"){
-    target.currentHP -= damage;
-    
     for(ii=0;ii&lt;6;ii++){
         with(instance_create(target.x+16, target.y+16, oBiff)){
             direction = irandom(360);
@@ -100,7 +98,10 @@ path_set_kind(movementPath, 2);
         target.shakeMag = 4;
     }
     
-    
+    target.currentHP -= damage;
+    if(target.currentHP&lt;=0){
+        target.state = "dead";
+    }
 } else {
     with(instance_create(target.x+28, target.y+2, oDamageText)){
         text = "miss";

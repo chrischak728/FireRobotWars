@@ -297,6 +297,9 @@ switch (state){
                     }
                     
                     attackTarget.currentHP -= tempDamage;
+                    if(attackTarget.currentHP&lt;=0){
+                        attackTarget.state = "dead";
+                    }
                     
                     with(instance_create(attackTarget.x+28, attackTarget.y+2, oDamageText)){
                         text = "-" + string(other.tempDamage);
@@ -338,7 +341,6 @@ switch (state){
                 state = "idle";
             }
         break;
-    
     case "begin action":
         wipe_nodes();
         action_targeting(id, targetingType, actionRange);
@@ -372,6 +374,23 @@ switch (state){
             oGame.currentActor = noone;
             state = "idle";
         }
+        break;
+        
+    case "dead":
+        //remove occupant from currentNode    
+        map[gridX, gridY].occupant = noone;
+        //remove from roll list from oGame
+        index = ds_list_find_index(oGame.turnOrder, id);
+        ds_list_delete(oGame.turnOrder, index);
+        
+        //need to repack the roll list to avoid accessing index with no object\
+        
+        
+        //destroy instance from game
+        instance_destroy();
+        
+        oGame.turnMax--;
+        
         break;
 }
 </string>

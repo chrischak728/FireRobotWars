@@ -68,12 +68,13 @@ alarm[0] = 10;
         text = "-" + string(other.damage);
     }
     
-    target.currentHP -= damage;
-    
     target.shake = 4;
     target.shakeMag = 4;
     
-
+    target.currentHP -= damage;
+    if(target.currentHP&lt;=0){
+        target.state = "dead";
+    }
 }
 instance_destroy();
 </string>

@@ -32,6 +32,10 @@ army = RED_ARMY;
 flash = false;
 
 color = c_white;
+
+undead = false;
+
+
 </string>
           </argument>
         </arguments>
