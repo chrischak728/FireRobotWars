@@ -32,6 +32,64 @@ army = RED_ARMY;
 flash = false;
 
 color = c_white;
+
+// Directly copied
+name = "Enemy";
+
+class = "Wizard";
+race = "Gnome";
+
+//char stats -----------------------------------------
+level = 1;
+
+//base stats
+profMod = 2 + floor(level/5);
+
+//strength
+strMod = 0;
+//speed
+dexMod = 1;
+//constitution
+conMod = 2;
+//institution
+intMod = 0;
+//wisdom
+wisMod = 3;
+
+//health
+maxHP = 6 + conMod + ((level-1) * (4+conMod));
+currentHP = maxHP;
+
+//attack
+hitBonus = profMod + strMod;
+attackType = "ranged";
+attackRange = 15 * GRID_SIZE;
+
+//damage
+damageDice = 10;
+damageBonus = 0;
+damageType = "fire";
+
+//spell and action
+spellHitBonus = profMod + intMod;
+spellSaveDC = 8 + intMod + profMod;
+
+firstLevelSlotMax = 2;
+firstLevelSlot = 2;
+
+firstLevelSpellList = ds_list_create();
+
+fill_spell_list(id, level, class);
+
+//defense
+armorClass = 10 + dexMod;
+
+//move and actions
+move = 5;
+actions = 2;
+
+//initiative
+initiative = dexMod;
 </string>
           </argument>
         </arguments>
@@ -89,7 +147,6 @@ if(shake &gt; 0){
     draw_sprite_ext(sprite_index, -1, x + irandom_range(-shakeMag, shakeMag), y+ irandom_range(-shakeMag, shakeMag),1 ,1 ,0, color, 1);
 } else {
     draw_sprite_ext(sprite_index, -1, x, y, 1, 1, 0, color ,1);
-    
 }
 
 </string>

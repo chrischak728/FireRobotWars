@@ -188,6 +188,7 @@ switch (state){
             
             oCursor.selectedActor = id;
         } else { //enemies
+            movement_range_AI(map[gridX,gridY], move, actions,true,id)
             flash = true;
             alarm[0] = 30;
         }

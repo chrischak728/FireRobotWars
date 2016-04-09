@@ -43,6 +43,9 @@
   <scripts name="scripts">
     <script>scripts\wipe_nodes.gml</script>
     <script>scripts\color_move_node.gml</script>
+    <scripts name="AI">
+      <script>scripts\movement_range_AI.gml</script>
+    </scripts>
     <scripts name="Actions and spell">
       <script>scripts\perform_action.gml</script>
       <script>scripts\action_targeting.gml</script>
