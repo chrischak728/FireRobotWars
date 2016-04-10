@@ -11,7 +11,13 @@
       <sprite>sprites\sButtonEndTurn</sprite>
       <sprite>sprites\sConfirmButton</sprite>
       <sprite>sprites\sButtonDefault</sprite>
+      <sprite>sprites\sButtonFlame</sprite>
+      <sprite>sprites\sButtonBless</sprite>
+      <sprite>sprites\sButtonBolt</sprite>
       <sprite>sprites\sCursor</sprite>
+      <sprite>sprites\sButtonHeal</sprite>
+      <sprite>sprites\sButtonAcid</sprite>
+      <sprite>sprites\sButtonMagicMis</sprite>
     </sprites>
     <sprites name="effects">
       <sprite>sprites\sArrow</sprite>

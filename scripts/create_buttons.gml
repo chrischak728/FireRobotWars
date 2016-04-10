@@ -34,6 +34,7 @@ for(ii=0; ii<ds_list_size(buttonList);ii++){
         //cleric spells ------------------
         case "Bless":
             with(instance_create(buttonX+ (ii*96), buttonY, oButton)){
+                buttonImg = sButtonBless;
                 title = "BLESS";
                 text = "Give all party members a small bonus to attack and save rolls#1d4 bonus (5 rounds)";
                 hotkey = string(other.ii+1);
@@ -43,6 +44,7 @@ for(ii=0; ii<ds_list_size(buttonList);ii++){
             break;
         case "Guiding Bolt":
             with(instance_create(buttonX+ (ii*96), buttonY, oButton)){
+                buttonImg = sButtonBolt;
                 title = "GUIDING BOLT";
                 text = "Right click an enemy to fire a bolt!#4d6 RADIANT damage#bonus on next attack against target!";
                 hotkey = string(other.ii+1);
@@ -52,6 +54,7 @@ for(ii=0; ii<ds_list_size(buttonList);ii++){
             break;
         case "Healing Word":
             with(instance_create(buttonX+ (ii*96), buttonY, oButton)){
+                buttonImg = sButtonHeal;
                 title = "HEALING WORD";
                 text = "Right click  an ally in range to heal them!#1d8" + string(other.actor.wisMod)+" HEALING";
                 hotkey = string(other.ii+1);
@@ -64,6 +67,7 @@ for(ii=0; ii<ds_list_size(buttonList);ii++){
         //wizard spelss -----------------
         case "Acid Orb":
             with(instance_create(buttonX+ (ii*96), buttonY, oButton)){
+                buttonImg = sButtonAcid;
                 title = "ACID ORB";
                 text = "Right click an enemy to fire an orb of deadly acid!#3d10 Acid damage#ongoing burn";
                 hotkey = string(other.ii+1);
@@ -73,6 +77,7 @@ for(ii=0; ii<ds_list_size(buttonList);ii++){
             break;
         case "Burning Hands":
             with(instance_create(buttonX+ (ii*96), buttonY, oButton)){
+                buttonImg = sButtonFlame;
                 title = "BURNING HANDS";
                 text = "Right click  a square in range to emit a cone of flames!#3d6 FIRE damage (AOE)";
                 hotkey = string(other.ii+1);
@@ -82,6 +87,7 @@ for(ii=0; ii<ds_list_size(buttonList);ii++){
             break;
         case "Magic Missiles":
             with(instance_create(buttonX+ (ii*96), buttonY, oButton)){
+                buttonImg = sButtonMagicMis;
                 title = "MAGIC MISSILES";
                 text = "Fire a Magic Missile at each visible nemy#1d4 FORCE damage#cannot miss!";
                 hotkey = string(other.ii+1);
