@@ -127,6 +127,7 @@ spTop = char1_top;
 spLeft = char1_left;
 spDown = char1_down;
 spRight = char1_right;
+image_speed = 0.5;
 </string>
           </argument>
         </arguments>

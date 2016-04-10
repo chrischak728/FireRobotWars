@@ -74,6 +74,12 @@ charge = true;
 
 //initiative
 initiative = dexMod;
+
+spIdle = char3;
+spTop = char3_top;
+spLeft = char3_left;
+spDown = char3_down;
+spRight = char3_right;
 </string>
           </argument>
         </arguments>
