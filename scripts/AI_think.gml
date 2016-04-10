@@ -107,7 +107,7 @@ if(isAI){
     targetId = find_target();
     targetNode = find_targetNode(targetId);
     
-    show_message("target : " + string(targetId.name) + "ToNode : " + string(targetNode.id));
+    show_debug_message("target : " + string(targetId.name) + "ToNode : " + string(targetNode.id));
     
     //Can Ai reach target?
     if(targetNode.attackNode = true){
