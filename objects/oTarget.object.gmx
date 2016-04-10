@@ -117,6 +117,8 @@ initiative = dexMod;
 color = c_white;
 
 oGame.currentActor = noone;
+
+
 </string>
           </argument>
         </arguments>

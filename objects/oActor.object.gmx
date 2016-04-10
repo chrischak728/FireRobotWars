@@ -187,14 +187,17 @@ switch (state){
             }
             
             oCursor.selectedActor = id;
+            state = "ready";
+            
         } else { //enemies
-            movement_range_AI(map[gridX,gridY], move, actions,true,id)
-            flash = true;
-            alarm[0] = 30;
+            //state = "ready";
+            AI_think(map[gridX,gridY], move, actions,true,id)
+            //flash = true;
+            //alarm[0] = 90;
+            
         }
         
-        state = "ready";
-        
+        //state = "ready";
         break;
     case "begin path": 
         //begin move
@@ -206,6 +209,7 @@ switch (state){
         if(actionTimer&lt;=0){
             state = "attack";
         }
+
         break;
     case "attack":
         attackRoll = irandom_range(1, 20);
@@ -270,6 +274,8 @@ switch (state){
                 state = "end attack";
                 
                 actionTimer = 30;
+                
+                
                 
                 break;
                 

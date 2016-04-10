@@ -320,13 +320,22 @@ if (selectedActor != noone){
 }
 
 if(hoverNode!=noone &amp;&amp; hoverNode.occupant != noone){
-    tempText = get_target_text(hoverNode.occupant);
+    tempText = get_target_text(hoverNode.occupant) + " " + get_node_text(hoverNode);
     
     draw_set_color(c_black);
     draw_rectangle(room_width - string_width(tempText), 0, room_width, string_height(tempText) , false);
     
     draw_set_color(c_white);
     draw_text(room_width - string_width(tempText), 0, tempText);
+} else {
+    tempText = get_node_text(hoverNode);
+    
+    draw_set_color(c_black);
+    draw_rectangle(room_width - string_width(tempText), 0, room_width, string_height(tempText) , false);
+    
+    draw_set_color(c_white);
+    draw_text(room_width - string_width(tempText), 0, tempText);
+
 }
 </string>
           </argument>

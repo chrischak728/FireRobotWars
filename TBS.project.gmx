@@ -44,7 +44,13 @@
     <script>scripts\wipe_nodes.gml</script>
     <script>scripts\color_move_node.gml</script>
     <scripts name="AI">
-      <script>scripts\movement_range_AI.gml</script>
+      <script>scripts\AI_think.gml</script>
+      <script>scripts\find_target.gml</script>
+      <script>scripts\find_targetNode.gml</script>
+      <script>scripts\calc_distance_player.gml</script>
+      <script>scripts\calc_distance_from_node.gml</script>
+      <script>scripts\a_move.gml</script>
+      <script>scripts\a_attack.gml</script>
     </scripts>
     <scripts name="Actions and spell">
       <script>scripts\perform_action.gml</script>
@@ -66,6 +72,7 @@
     </scripts>
     <scripts name="text">
       <script>scripts\get_target_text.gml</script>
+      <script>scripts\get_node_text.gml</script>
     </scripts>
     <scripts name="game over">
       <script>scripts\check_game_over.gml</script>
