@@ -34,10 +34,10 @@ flash = false;
 color = c_white;
 
 // Directly copied
-name = "Enemy";
+name = "Haunted Ghost";
 
-class = "Wizard";
-race = "Gnome";
+class = "Ghost";
+race = "Undead";
 
 //char stats -----------------------------------------
 level = 1;

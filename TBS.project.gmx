@@ -119,6 +119,7 @@
       <object>objects\oShayne</object>
       <object>objects\oChris</object>
       <object>objects\oTarget</object>
+      <object>objects\oMeleeTarget</object>
       <object>objects\oKen</object>
     </objects>
     <objects name="effects">
@@ -143,6 +144,8 @@
       <object>objects\oConfirmButton</object>
       <object>objects\oConfirmBox</object>
       <object>objects\oGameOverMessage</object>
+      <object>objects\oSelfStats</object>
+      <object>objects\oTargetStats</object>
     </objects>
   </objects>
   <rooms name="rooms">

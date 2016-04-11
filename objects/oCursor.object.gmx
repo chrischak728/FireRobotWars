@@ -301,33 +301,24 @@ if (mouse_check_button_pressed(mb_right) &amp;&amp; hoverNode!=noone){
 draw_self();
 
 if (selectedActor != noone){
-    tempText = selectedActor.name + " the " + selectedActor.race + " " + selectedActor.class;
-    
-    tempHP = "HP: " + string(selectedActor.currentHP) + "/" + string(selectedActor.maxHP);
-    
-    tempHitBonus = "Hit Bonus: " + string(selectedActor.hitBonus);
-    
-    draw_set_color(c_black);
-    draw_rectangle(0,0, string_width(tempText), string_height(tempText), false);
-    draw_rectangle(0,16, string_width(tempHP), 16 + string_height(tempHP), false);
-//    draw_rectangle(0,32, string_width(tempHitBonus), 32 + string_height(tempHitBonus), false);    
-    
-    draw_set_color(c_white);
-    draw_text (0, 0, tempText);    
-    draw_text (0, 16, tempHP);
-//    draw_text (0, 32, tempHitBonus);
-    
+    oSelfStats.actor = selectedActor;
+} else {
+    oSelfStats.actor = noone;
 }
 
 if(hoverNode!=noone &amp;&amp; hoverNode.occupant != noone){
-    tempText = get_target_text(hoverNode.occupant) + " " + get_node_text(hoverNode);
+    //tempText = get_target_text(hoverNode.occupant) + " " + get_node_text(hoverNode);
     
-    draw_set_color(c_black);
-    draw_rectangle(room_width - string_width(tempText), 0, room_width, string_height(tempText) , false);
+    //draw_set_color(c_black);
+    //draw_rectangle(room_width - string_width(tempText), 0, room_width, string_height(tempText) , false);
     
-    draw_set_color(c_white);
-    draw_text(room_width - string_width(tempText), 0, tempText);
-} 
+    //draw_set_color(c_white);
+    //draw_text(room_width - string_width(tempText), 0, tempText);
+    
+    oTargetStats.actor = hoverNode.occupant;
+} else {
+    oTargetStats.actor = noone;
+}
 </string>
           </argument>
         </arguments>

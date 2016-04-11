@@ -12,7 +12,5 @@ tempName = actor.name;
 
 tempHP = "(HP: "+ string(actor.currentHP)+"/"+string(actor.maxHP)+")";
 
-tempState = " State : " + string(actor.state);
-
-return tempArmy+": "+tempName+tempHP + tempState;
+return tempArmy+": "+tempName+tempHP;
 

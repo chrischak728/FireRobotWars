@@ -8,7 +8,7 @@ targetId = argument3;
 switch(actorId.attackType){
     case "ranged":
         actorId.canAct = false;
-        actorId.actions--;
+        actorId.actions-=2;
         actorId.attackTarget = targetId;
         actorId.state = "begin attack";
         actorId.actionTimer = 10;
@@ -27,7 +27,7 @@ switch(actorId.attackType){
         tempY = abs(to.gridY - actorId.gridY);
         
         if(tempX <= 1 && tempY <=1){
-            actorId.actions--;
+            actorId.actions-=2;
             actorId.state = "begin attack";
             actorId.actionTimer = 10;
             

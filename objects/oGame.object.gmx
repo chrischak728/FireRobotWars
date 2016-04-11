@@ -95,6 +95,8 @@ for (i =0;i&lt;mapWidth;i++){
 }
 
 instance_create(0, 0,oCursor); 
+instance_create(0, 0, oSelfStats);
+instance_create(room_width, 0, oTargetStats);
 
 
 </string>
