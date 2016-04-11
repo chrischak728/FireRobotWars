@@ -7,7 +7,9 @@ move = argument1;
 actions = argument2;
 
 if (actions>1){
-    if (node.G > move) {
+    if (node.G > move*2){
+        node.color = c_white
+    } else if (node.G > move) {
         node.color = c_yellow;
     } else {
         node.color = c_aqua;
@@ -16,3 +18,9 @@ if (actions>1){
 } else {
     node.color = c_yellow;
 }
+
+/*
+    if (node.G > move*2){
+        node.color = c_purple;
+    } else 
+*/

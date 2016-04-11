@@ -33,7 +33,8 @@ while (ds_priority_size(open) > 0) {
             passable, no occupant, G< range, !in closed list
         */
         if (neighbor.passable && neighbor.occupant == noone && neighbor.cost + current.G <= range && ds_list_find_index(closed, neighbor)< 0){
-            //calc new G for neighbor if not yet calculated
+        //if (neighbor.passable && neighbor.occupant == noone && ds_list_find_index(closed, neighbor)< 0){
+                //calc new G for neighbor if not yet calculated
             if (ds_priority_find_priority(open, neighbor) == 0 || ds_priority_find_priority(open, neighbor) == undefined){
                 costMod=1;
                 

@@ -38,7 +38,8 @@ while (ds_priority_size(open) > 0) {
         /* add neighbor to list if valid
             passable, no occupant, G< range, !in closed list
         */
-        if (neighbor.passable && neighbor.occupant == noone && neighbor.cost + current.G <= range && ds_list_find_index(closed, neighbor)< 0){
+        //if (neighbor.passable && neighbor.occupant == noone && neighbor.cost + current.G <= range && ds_list_find_index(closed, neighbor)< 0){
+        if (neighbor.passable && ds_list_find_index(closed, neighbor)< 0){
             //calc new G for neighbor if not yet calculated
             if (ds_priority_find_priority(open, neighbor) == 0 || ds_priority_find_priority(open, neighbor) == undefined){
                 costMod=1;
@@ -102,18 +103,80 @@ switch(actorId.attackType){
 
 
 if(isAI){
+    //Note that : neighbor.occupant == noone commented , so it will move directly INTO player's position    
+    /*To pause at any position , add :
+    
+        actorId.state = "begin path";
+        actorId.endPath = "ready";
+        
+    then comment all thing below it.
+    */
+    
     
     //find the target with lowest health
     targetId = find_target();
     targetNode = find_targetNode(targetId);
-    
+    moveToNode = noone;
     show_debug_message("target : " + string(targetId.name) + "ToNode : " + string(targetNode.id));
     
+    nodeCount = 0;
+    nextNode = targetNode;
+    path[0] = noone;
+    
+    //get the nodeIDs from current to target's path
+    while(nextNode.parent != noone){
+        show_debug_message(string(nodeCount) + " :  nextNode : " + string(nextNode));
+        nextNode.color = c_black;       // Move path is colored black here
+        path[nodeCount] = nextNode;
+        draw_line_width_color(nextNode.x +16, nextNode.y +16, nextNode.parent.x +16, nextNode.parent.y + 16, 4, c_lime, c_lime);
+        nextNode = nextNode.parent;
+        nodeCount++;
+    }
+    
+    //sort the array by G value ascending
+    swapped = true;
+    j = 0;
+    while(swapped){
+        swapped = false;
+        j++;
+        for(i = 0 ; i < nodeCount - j ; i++){
+            if(path[i].G > path[i+1].G){
+                tmp = path[i];
+                path[i] = path[i+1];
+                path[i+1] = tmp;
+                swapped = true;
+            }   
+        }
+    }
+    
+    for(i=0;i < nodeCount ;i++){
+        show_debug_message("id : " + string(path[i]) + " , G : " + string(path[i].G));
+    }
+        
     //Can Ai reach target?
     if(targetNode.attackNode = true){
         a_attack(start , targetNode , actorId , targetId);
         //break;
     } else {
+        isOutRange = false;
+        count=0;
+        while(!isOutRange && count < nodeCount){
+            if(path[count].G > range){
+                isOutRange = true;
+                moveToNode = path[count-1];
+            }
+            count++;
+        }
+        //use -2 , if not, it moves INTO the player
+        if(!isOutRange)
+            moveToNode = path[nodeCount-2];
+        
+        
+        a_move(start , moveToNode , actorId);
+    
+        
+        
+    /*
         //loop all movable nodes find nodes with largest G & cloest to target
         tempNode = ds_list_find_value(closed,0);
         tempG = tempNode.G;
@@ -139,59 +202,11 @@ if(isAI){
                     }
             }
         }
-        
-        a_move(start , bigGNode, actorId);
-    }
-    
-    /*
-    for (i=0;i <ds_list_size(closed); i++){
-        //loop the movable nodes to check if target is within range
-        tempNode = ds_list_find_value(closed,i);
-        if(tempNode.attackNode){
-            a_attack(start , tempNode , actorId , targetId);
-            break;
-        } else {
-            
-        }
         */
-        /*
-        if(tempNode.occupant = targetId){
-            targetNode = tempNode;
-            break;
-        }*/
-        //distanceFromNodes[i] = calc_distance(targetId , actorId);
-    
-    
-    /*  For random move
-    rndNo = floor( random(ds_list_size(closed))) + 1;
-    rndNodeId = ds_list_find_value(closed,rndNo);
-    */
-    
-    //a_move(start , targetNode , actorId);
-    
-    /*
-    create_path(actorId, rndNodeId);
-    
-    map[start.gridX, start.gridY].occupant = noone;
-    
-    //update AI position
-    rndNodeId.occupant = actorId
-    actorId.gridX = rndNodeId.gridX;
-    actorId.gridY = rndNodeId.gridY;
-    
-    actorId.state = "begin path";
-    actorId.endPath = "ready";
-    
-    
-    if (rndNodeId.G > actorId.move){
-            actorId.actions -=2;
-            wipe_nodes();
-       } else {
-            actorId.actions --;
-            wipe_nodes();
-       }*/
-       
+        //a_move(start , bigGNode, actorId);
+    }      
 }
+
 //destroy closed list
 ds_list_destroy(closed);
 

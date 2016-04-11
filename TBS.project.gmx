@@ -64,8 +64,6 @@
       <script>scripts\AI_think.gml</script>
       <script>scripts\find_target.gml</script>
       <script>scripts\find_targetNode.gml</script>
-      <script>scripts\calc_distance_player.gml</script>
-      <script>scripts\calc_distance_from_node.gml</script>
       <script>scripts\a_move.gml</script>
       <script>scripts\a_attack.gml</script>
     </scripts>
