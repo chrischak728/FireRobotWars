@@ -32,20 +32,30 @@
       <sprite>sprites\sTarget</sprite>
       <sprite>sprites\char1</sprite>
       <sprite>sprites\char3</sprite>
+      <sprite>sprites\char4</sprite>
       <sprite>sprites\char2</sprite>
       <sprite>sprites\charset2</sprite>
       <sprite>sprites\char1_right</sprite>
+      <sprite>sprites\mon1_right</sprite>
       <sprite>sprites\char3_right</sprite>
+      <sprite>sprites\char4_right</sprite>
       <sprite>sprites\char2_right</sprite>
       <sprite>sprites\char1_left</sprite>
+      <sprite>sprites\mon1_left</sprite>
       <sprite>sprites\char3_left</sprite>
+      <sprite>sprites\char4_left</sprite>
       <sprite>sprites\char2_left</sprite>
       <sprite>sprites\char1_top</sprite>
+      <sprite>sprites\mon1_top</sprite>
       <sprite>sprites\char3_top</sprite>
+      <sprite>sprites\char4_top</sprite>
       <sprite>sprites\char2_top</sprite>
       <sprite>sprites\char1_down</sprite>
+      <sprite>sprites\mon1_down</sprite>
       <sprite>sprites\char3_down</sprite>
+      <sprite>sprites\char4_down</sprite>
       <sprite>sprites\char2_down</sprite>
+      <sprite>sprites\mon1</sprite>
     </sprites>
     <sprites name="Nodes and terrain">
       <sprite>sprites\sNode</sprite>

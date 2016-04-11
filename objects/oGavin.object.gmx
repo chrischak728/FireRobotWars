@@ -76,6 +76,12 @@ sneakAttackDamage = 6;
 
 //initiative
 initiative = dexMod;
+
+spIdle = char4;
+spTop = char4_top;
+spLeft = char4_left;
+spDown = char4_down;
+spRight = char4_right;
 </string>
           </argument>
         </arguments>

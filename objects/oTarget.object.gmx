@@ -90,6 +90,12 @@ actions = 2;
 
 //initiative
 initiative = dexMod;
+
+spIdle = mon1;
+spTop = mon1_top;
+spLeft = mon1_left;
+spDown = mon1_down;
+spRight = mon1_right;
 </string>
           </argument>
         </arguments>
