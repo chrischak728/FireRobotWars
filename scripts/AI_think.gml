@@ -38,8 +38,11 @@ while (ds_priority_size(open) > 0) {
         /* add neighbor to list if valid
             passable, no occupant, G< range, !in closed list
         */
+        
+        
         //if (neighbor.passable && neighbor.occupant == noone && neighbor.cost + current.G <= range && ds_list_find_index(closed, neighbor)< 0){
         if (neighbor.passable && ds_list_find_index(closed, neighbor)< 0){
+
             //calc new G for neighbor if not yet calculated
             if (ds_priority_find_priority(open, neighbor) == 0 || ds_priority_find_priority(open, neighbor) == undefined){
                 costMod=1;
@@ -70,6 +73,8 @@ while (ds_priority_size(open) > 0) {
                 }
             }
         }
+        
+        
     }
 }
 
@@ -113,97 +118,18 @@ if(isAI){
     */
     
     
-    //find the target with lowest health
-    targetId = find_target();
-    targetNode = find_targetNode(targetId);
+    targetId = search_target(actorId);
+    targetNode = find_node_by_actor(targetId);
     moveToNode = noone;
     show_debug_message("target : " + string(targetId.name) + "ToNode : " + string(targetNode.id));
     
-    nodeCount = 0;
-    nextNode = targetNode;
-    path[0] = noone;
-    
-    //get the nodeIDs from current to target's path
-    while(nextNode.parent != noone){
-        show_debug_message(string(nodeCount) + " :  nextNode : " + string(nextNode));
-        nextNode.color = c_black;       // Move path is colored black here
-        path[nodeCount] = nextNode;
-        draw_line_width_color(nextNode.x +16, nextNode.y +16, nextNode.parent.x +16, nextNode.parent.y + 16, 4, c_lime, c_lime);
-        nextNode = nextNode.parent;
-        nodeCount++;
-    }
-    
-    //sort the array by G value ascending
-    swapped = true;
-    j = 0;
-    while(swapped){
-        swapped = false;
-        j++;
-        for(i = 0 ; i < nodeCount - j ; i++){
-            if(path[i].G > path[i+1].G){
-                tmp = path[i];
-                path[i] = path[i+1];
-                path[i+1] = tmp;
-                swapped = true;
-            }   
-        }
-    }
-    
-    for(i=0;i < nodeCount ;i++){
-        show_debug_message("id : " + string(path[i]) + " , G : " + string(path[i].G));
-    }
-        
-    //Can Ai reach target?
+    //Is the target within attack range?
     if(targetNode.attackNode = true){
         a_attack(start , targetNode , actorId , targetId);
-        //break;
     } else {
-        isOutRange = false;
-        count=0;
-        while(!isOutRange && count < nodeCount){
-            if(path[count].G > range){
-                isOutRange = true;
-                moveToNode = path[count-1];
-            }
-            count++;
-        }
-        //use -2 , if not, it moves INTO the player
-        if(!isOutRange)
-            moveToNode = path[nodeCount-2];
-        
-        
+        //use this function to get the furthest that AI can move in THIS round
+        moveToNode = a_find_move_node(targetNode , range);    
         a_move(start , moveToNode , actorId);
-    
-        
-        
-    /*
-        //loop all movable nodes find nodes with largest G & cloest to target
-        tempNode = ds_list_find_value(closed,0);
-        tempG = tempNode.G;
-        bigGNode = tempNode;
-        //find node with largest G first , if you can't attack , you must move close to taget
-        for (i=1;i <ds_list_size(closed); i++){
-            tempNode = ds_list_find_value(closed,i);
-            if(tempNode.G > tempG){
-                tempG = tempNode.G;
-                bigGNode  = tempNode;
-                }
-        }
-        
-        //In case of same G , find the one that can move closest to target
-        for (i=0;i <ds_list_size(closed); i++){
-            tempNode = ds_list_find_value(closed,i);
-            if(tempNode.G == bigGNode.G){
-                distance = calc_distance_from_node(tempNode , targetNode);
-                distanceG = calc_distance_from_node(bigGNode, targetNode);
-                
-                if(distanceG > distance){
-                    bigGNode = tempNode;
-                    }
-            }
-        }
-        */
-        //a_move(start , bigGNode, actorId);
     }      
 }
 

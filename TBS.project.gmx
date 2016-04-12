@@ -71,11 +71,12 @@
     <script>scripts\wipe_nodes.gml</script>
     <script>scripts\color_move_node.gml</script>
     <scripts name="AI">
-      <script>scripts\AI_think.gml</script>
-      <script>scripts\find_target.gml</script>
-      <script>scripts\find_targetNode.gml</script>
       <script>scripts\a_move.gml</script>
       <script>scripts\a_attack.gml</script>
+      <script>scripts\a_find_move_node.gml</script>
+      <script>scripts\AI_think.gml</script>
+      <script>scripts\search_target.gml</script>
+      <script>scripts\find_node_by_actor.gml</script>
     </scripts>
     <scripts name="Actions and spell">
       <script>scripts\perform_action.gml</script>
