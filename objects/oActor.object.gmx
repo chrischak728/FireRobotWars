@@ -385,14 +385,12 @@ switch (state){
         break;
         
     case "dead":
-        //remove occupant from currentNode    
+        //remove occupant from currentNode
+        oTargetStats.actor = noone;    
         map[gridX, gridY].occupant = noone;
         //remove from roll list from oGame
         index = ds_list_find_index(oGame.turnOrder, id);
         ds_list_delete(oGame.turnOrder, index);
-        
-        //need to repack the roll list to avoid accessing index with no object\
-        
         
         //destroy instance from game
         instance_destroy();
