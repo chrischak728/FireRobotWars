@@ -98,7 +98,9 @@ instance_create(0, 0,oCursor);
 instance_create(0, 0, oSelfStats);
 instance_create(room_width, 0, oTargetStats);
 
-
+//Game Sound FX BGM
+var sfx_bgm = audio_play_sound(sn_bgm,20,true);
+audio_sound_gain(sfx_bgm,0.05,1000);
 </string>
           </argument>
         </arguments>

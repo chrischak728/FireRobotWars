@@ -4,7 +4,12 @@
     <Config>Configs\Default</Config>
   </Configs>
   <NewExtensions/>
-  <sounds name="sound"/>
+  <sounds name="sound">
+    <sound>sound\sn_walk</sound>
+    <sound>sound\sn_shot</sound>
+    <sound>sound\sn_death</sound>
+    <sound>sound\sn_bgm</sound>
+  </sounds>
   <sprites name="sprites">
     <sprite>sprites\sprite9</sprite>
     <sprites name="button and UI">
@@ -68,6 +73,7 @@
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
+    <script>scripts\ranged_attack_range.gml</script>
     <script>scripts\wipe_nodes.gml</script>
     <script>scripts\color_move_node.gml</script>
     <scripts name="AI">
@@ -93,7 +99,6 @@
       <script>scripts\movement_range.gml</script>
       <script>scripts\melee_attack_range.gml</script>
       <script>scripts\create_path.gml</script>
-      <script>scripts\ranged_attack_range.gml</script>
       <script>scripts\fill_spell_list.gml</script>
     </scripts>
     <scripts name="text">

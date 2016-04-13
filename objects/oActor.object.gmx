@@ -36,6 +36,7 @@ name = "Error";
 class = "Peasant";
 race = "Human";
 
+
 //char stats -----------------------------------------
 level = 1;
 
@@ -204,13 +205,18 @@ switch (state){
         //begin move
         path_start(movementPath, moveSpeed, 0, true);
         state = "moving";
+        //Walk Sound FX
+        var sfx_walk = audio_play_sound(sn_walk,10,true);
+        audio_sound_gain(sfx_walk,random_range(1.5,1),0);
+        audio_sound_pitch(sfx_walk,random_range(0.95,1));
         break;
     case "begin attack":
         actionTimer--;
         if(actionTimer&lt;=0){
             state = "attack";
         }
-
+        //Attack Sound FX
+        audio_play_sound(sn_shot,10,false);
         break;
     case "attack":
         attackRoll = irandom_range(1, 20);
@@ -385,6 +391,8 @@ switch (state){
         break;
         
     case "dead":
+        //Death Sound FX
+        audio_play_sound(sn_death,10,false);
         //remove occupant from currentNode
         oTargetStats.actor = noone;    
         map[gridX, gridY].occupant = noone;
@@ -399,6 +407,8 @@ switch (state){
         
         break;
 }
+
+
 </string>
           </argument>
         </arguments>
@@ -426,6 +436,7 @@ path_clear_points(movementPath);
 
 if(endPath=="ready"){
     state = "idle";
+    audio_stop_sound(sn_walk);
 
     //remaining moves:
     if (actions&gt;0){
@@ -448,6 +459,7 @@ if(endPath=="ready"){
 
 } else {
     state = endPath;
+    audio_stop_sound(sn_walk);
 }
 </string>
           </argument>
