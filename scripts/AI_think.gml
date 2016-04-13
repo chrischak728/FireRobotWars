@@ -123,11 +123,12 @@ if(isAI){
     moveToNode = noone;
     show_debug_message("target : " + string(targetId.name) + "ToNode : " + string(targetNode.id));
     
-    //If the AI's HP is much lower than player, run away.
+    //If the AI's HP is much lower than player, it may run away.
     var targetHealth = targetId.currentHP/targetId.maxHP;
     var aiHealth = actorId.currentHP/actorId.maxHP;
+    var prob_runAway = random_range(0.0,10.0);
     //Implementation
-    if(aiHealth<=targetHealth*0.5){
+    if(aiHealth<=targetHealth*0.5 && prob_runAway>=0.3 && targetNode.gridX<=25 && targetNode.gridY>=6){
         var exitNode = map[31,1];
         moveToNode = a_find_move_node(exitNode,range);
         a_move(start, moveToNode , actorId);

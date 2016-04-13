@@ -9,6 +9,10 @@
     <sound>sound\sn_shot</sound>
     <sound>sound\sn_death</sound>
     <sound>sound\sn_bgm</sound>
+    <sound>sound\sn_spell</sound>
+    <sound>sound\sn_acidorb</sound>
+    <sound>sound\sn_fire</sound>
+    <sound>sound\sn_missile</sound>
   </sounds>
   <sprites name="sprites">
     <sprite>sprites\sprite9</sprite>

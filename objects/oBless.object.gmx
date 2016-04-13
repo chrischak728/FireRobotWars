@@ -26,7 +26,6 @@
           <argument>
             <kind>1</kind>
             <string>target = noone;
-
 image_speed = 0.5;
 </string>
           </argument>
