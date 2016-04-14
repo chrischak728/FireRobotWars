@@ -56,9 +56,7 @@ loseMessage = "All allies are killed.#Press R to Restart, anyother key to exit."
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if keyboard_check_pressed("R"){
-    room_goto(lvl_1);
-} else if (keyboard_check_pressed(vk_anykey)){
+            <string>if (keyboard_check_pressed(vk_anykey)){
     room_goto(menu_main);
 }
 </string>
