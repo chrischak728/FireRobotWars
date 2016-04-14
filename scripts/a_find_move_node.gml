@@ -4,6 +4,7 @@ range = argument1;
 moveToNode = noone;
 path[0] = noone;
 nodeCount = 0;
+
 //In case AI needs to move , AI should move to neigbhors closest to target.
 found = false;
 while(!found){
@@ -19,7 +20,7 @@ while(!found){
 //get a set of path nodeIDs to the targetNode
 while(nextNode.parent != noone){
     show_debug_message(string(nodeCount) + " :  nextNode : " + string(nextNode));
-    nextNode.color = c_black;       // Move path is colored black here
+    //nextNode.color = c_black;       // Move path is colored black here
     path[nodeCount] = nextNode;
     nextNode = nextNode.parent;
     nodeCount++;
@@ -41,10 +42,11 @@ while(swapped){
     }
 }
 
+/*
 for(i=0;i < nodeCount ;i++){
     show_debug_message("id : " + string(path[i]) + " , G : " + string(path[i].G));
 }
-    
+    */
 
 //This tells the furthest node AI can move in a turn
 isOutRange = false;
