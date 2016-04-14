@@ -136,10 +136,17 @@ if(isAI){
     else{
     //Is the target within attack range?
         if(targetNode.attackNode = true){
-            a_attack(start , targetNode , actorId , targetId);
+                a_attack(start , targetNode , actorId , targetId);
         } else {
             //use this function to get the furthest that AI can move in THIS round
-            moveToNode = a_find_move_node(targetNode , range);    
+            
+            //Move to allies if too far away.
+            tempNode = search_allies_within_range(actorId , range);
+            if(tempNode > 0){
+                targetNode = tempNode;
+            }
+            
+            moveToNode = a_find_move_node(targetNode , range);   
             a_move(start , moveToNode , actorId);
         }     
     } 

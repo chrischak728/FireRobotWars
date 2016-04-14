@@ -92,9 +92,11 @@
     <scripts name="AI">
       <script>scripts\a_move.gml</script>
       <script>scripts\a_attack.gml</script>
+      <script>scripts\a_attack_spell.gml</script>
       <script>scripts\a_find_move_node.gml</script>
       <script>scripts\AI_think.gml</script>
       <script>scripts\search_target.gml</script>
+      <script>scripts\search_allies_within_range.gml</script>
       <script>scripts\find_node_by_actor.gml</script>
     </scripts>
     <scripts name="Actions and spell">
