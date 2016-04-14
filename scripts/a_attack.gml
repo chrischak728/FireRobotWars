@@ -48,31 +48,31 @@ switch(actorId.attackType){
             }
             
             targetNode = current;
+            if(targetNode != noone){
             
-            
-            create_path(actorId, targetNode);
-            
-            //clear actorId node
-           map[actorId.gridX, actorId.gridY].occupant = noone;
+                create_path(actorId, targetNode);
+                
+                //clear actorId node
+               map[actorId.gridX, actorId.gridY].occupant = noone;
+               
+               //update selected actor pos
+               actorId.gridX = targetNode.gridX;
+               actorId.gridY = targetNode.gridY;
+               
+               //update actorId's future node
+               targetNode.occupant = actorId;
+               
+           }
            
-           //update selected actor pos
-           actorId.gridX = targetNode.gridX;
-           actorId.gridY = targetNode.gridY;
-           
-           //update actorId's future node
-           targetNode.occupant = actorId;
-           
-           //send actor on its way
-           actorId.state = "begin path";
-           actorId.endPath = "begin attack";
-           
-           actorId.attackTarget = to.occupant;
-           actorId.actions-=2;
-           actorId.canAct = false;
-           
-           actorId = noone;
-           //wipe_nodes();
-           //wipe_buttons();
+            //send actor on its way
+               actorId.state = "begin path";
+               actorId.endPath = "begin attack";
+               
+               actorId.attackTarget = to.occupant;
+               actorId.actions-=2;
+               actorId.canAct = false;
+               
+               actorId = noone;
         }
         
         break;
