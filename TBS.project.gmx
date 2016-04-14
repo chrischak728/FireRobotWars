@@ -13,6 +13,7 @@
     <sound>sound\sn_acidorb</sound>
     <sound>sound\sn_fire</sound>
     <sound>sound\sn_missile</sound>
+    <sound>sound\sn_menu</sound>
   </sounds>
   <sprites name="sprites">
     <sprite>sprites\sprite9</sprite>
@@ -71,9 +72,17 @@
       <sprite>sprites\sWall</sprite>
       <sprite>sprites\sRubble</sprite>
     </sprites>
+    <sprites name="menu">
+      <sprite>sprites\sp_startGame</sprite>
+      <sprite>sprites\sp_exit</sprite>
+      <sprite>sprites\sp_sound_on</sprite>
+      <sprite>sprites\sp_sound_off</sprite>
+      <sprite>sprites\sp_title</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\background0</background>
+    <background>background\background1</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -112,6 +121,7 @@
     <scripts name="game over">
       <script>scripts\check_game_over.gml</script>
     </scripts>
+    <script>scripts\menu_hover.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fDefault</font>
@@ -157,8 +167,16 @@
       <object>objects\oSelfStats</object>
       <object>objects\oTargetStats</object>
     </objects>
+    <objects name="menu">
+      <object>objects\oStart</object>
+      <object>objects\oSound</object>
+      <object>objects\oExit</object>
+      <object>objects\oTitle</object>
+      <object>objects\menu_Cursor</object>
+    </objects>
   </objects>
   <rooms name="rooms">
+    <room>rooms\menu_main</room>
     <room>rooms\lvl_1</room>
   </rooms>
   <constants number="6">

@@ -99,8 +99,13 @@ instance_create(0, 0, oSelfStats);
 instance_create(room_width, 0, oTargetStats);
 
 //Game Sound FX BGM
-var sfx_bgm = audio_play_sound(sn_bgm,20,true);
-audio_sound_gain(sfx_bgm,0.05,1000);
+
+//var sfx_bgm = audio_play_sound(sn_bgm,20,true);
+
+if(!global.muted) //If it's not muted
+{
+  audio_play_sound(sn_bgm,20,true);
+}
 </string>
           </argument>
         </arguments>
@@ -218,6 +223,40 @@ audio_sound_gain(sfx_bgm,0.05,1000);
         }
         break;
         
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="77">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(!global.muted) //If it's not muted
+{
+  global.muted=1;
+  sound_global_volume(0);
+  audio_stop_all();
+}
+else
+{
+  global.muted=0;
+  sound_global_volume(1);
+  audio_play_sound(sn_bgm,1,true);
 }
 </string>
           </argument>
