@@ -215,8 +215,11 @@ if(!global.muted) //If it's not muted
         //show game over message
         if(check_game_over()==GAME_LOSE){
             win = false;
+
         } else if(check_game_over()==GAME_WIN){
             win = true;
+            audio_stop_all();
+            audio_play_sound(sn_win,1,true);
         }
         with(instance_create(room_width/2, room_height, oGameOverMessage)){
             win = other.win;
