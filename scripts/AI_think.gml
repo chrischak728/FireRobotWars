@@ -18,6 +18,8 @@ range = argument1 * argument2;
 isAI = argument3;
 actorId = argument4;
 
+isRandomMove = argument5;
+
 //init data structure
 open = ds_priority_create();
 closed = ds_list_create();
@@ -106,8 +108,22 @@ switch(actorId.attackType){
         break;
 }
 
+if(isRandomMove){
+    movableNodes[0] = noone;
+    count = 0;
+    for (i=0;i <ds_list_size(closed); i++){
+        tempNode = ds_list_find_value(closed,i);
+        if(tempNode.G < range && tempNode.occupant == noone){
+            movableNodes[count] = ds_list_find_value(closed,i);
+            count++;
+        }
+    }
+    show_debug_message("ASDASdASD");
+    rnd = random(count);
+    moveToNode = movableNodes[rnd];
+    a_move(start , moveToNode , actorId);
 
-if(isAI){
+} else if(isAI){
     //Note that : neighbor.occupant == noone commented , so it will move directly INTO player's position    
     /*To pause at any position , add :
     
@@ -116,7 +132,7 @@ if(isAI){
         
     then comment all thing below it.
     */
-    
+
     
     targetId = search_target(actorId);
     targetNode = find_node_by_actor(targetId);

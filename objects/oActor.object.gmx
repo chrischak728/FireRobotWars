@@ -193,7 +193,7 @@ switch (state){
             
         } else { //enemies
             //state = "ready";
-            AI_think(map[gridX,gridY], move, actions,true,id)
+            AI_think(map[gridX,gridY], move, actions,true , id , false);
             //flash = true;
             //alarm[0] = 90;
             
@@ -349,9 +349,13 @@ switch (state){
             actionTimer -= 1;
             if(actionTimer&lt;=0){
                 if(actions&gt;0){
-                    oCursor.selectedActor = id;
+                    if(army == BLUE_ARMY){
+                        oCursor.selectedActor = id;
+                        movement_range(map[gridX, gridY], move, actions);
+                    } else {
+                        AI_think(map[gridX,gridY], move, actions,true , id , true);
+                    }
                     
-                    movement_range(map[gridX, gridY], move, actions)
                 } else {
                     oGame.currentActor = noone;
                 }
@@ -376,7 +380,11 @@ switch (state){
             state = "idle";
             
             if(actions&gt;0){
-                movement_range(map[gridX, gridY], move, actions);
+                if(army==BLUE_ARMY){
+                    movement_range(map[gridX, gridY], move, actions);
+                } else {
+                    AI_think(map[gridX,gridY], move, actions,true , id , true);
+                }
             } else {
                 state = "idle";
                 oCursor.selectedActor = noone;
@@ -447,7 +455,11 @@ if(endPath=="ready"){
     //remaining moves:
     if (actions&gt;0){
         oCursor.selectedActor = id;
-        movement_range(map[gridX, gridY], move, actions);
+        if(id.army == BLUE_ARMY){
+            movement_range(map[gridX, gridY], move, actions);
+        } else {
+            AI_think(map[gridX,gridY], move, actions,true , id , true);
+        }
         
         if(canAct){
             switch(attackType){
