@@ -29,11 +29,11 @@
 
 winTitle = "You win!!!";
 
-winMessage = "All enemies are killed.#Press R to Restart, anyother key to exit.";
+winMessage = "All enemies are killed.#Press any key to exit.";
 
 loseTitle = "You lose!!!";
 
-loseMessage = "All allies are killed.#Press R to Restart, anyother key to exit.";
+loseMessage = "All allies are killed.#Press any key to exit.";
 </string>
           </argument>
         </arguments>
