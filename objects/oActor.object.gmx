@@ -131,7 +131,7 @@ spTop = char1_top;
 spLeft = char1_left;
 spDown = char1_down;
 spRight = char1_right;
-image_speed = 0.5;
+image_speed = 0.4;
 </string>
           </argument>
         </arguments>
@@ -571,6 +571,7 @@ if(shake&gt;0){
     draw_sprite_ext(sprite_index, -1, x+irandom_range(-shakeMag,shakeMag), y+irandom_range(-shakeMag, shakeMag), 1, 1, 0, c_white, 1)
 } else {
     if(state="moving"){
+    image_speed = 0.6;
         if (direction &gt;= 315 || direction &lt;= 45){
             sprite_index = spRight;
         } else if (direction &gt; 45 &amp;&amp; direction &lt; 135){
@@ -581,7 +582,8 @@ if(shake&gt;0){
             sprite_index = spDown;
         }
     } else {
-        sprite_index = spIdle;
+        sprite_index = spDown;
+        image_speed = 0.2;
     }
     draw_self(); 
 }
