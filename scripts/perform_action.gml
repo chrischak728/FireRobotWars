@@ -15,8 +15,9 @@ switch(action){
     case "Bless":
         targets = ds_list_create();
         //Sound FX
-        audio_play_sound(sn_spell,10,false);
-        
+        if (!global.muted){
+            audio_play_sound(sn_spell,10,false);
+        }
         with(oNode){
             if(actionNode){
                 ds_list_add(other.targets, id);
@@ -85,7 +86,9 @@ switch(action){
         break;
     case "Healing Word":
         //Sound FX
-        audio_play_sound(sn_spell,10,false);
+        if (!global.muted){
+            audio_play_sound(sn_spell,10,false);
+        }
         target = oCursor.hoverNode.occupant;
         
         heal = irandom_range(1, 8) + actor.wisMod;
@@ -113,8 +116,9 @@ switch(action){
     //wizard spells
     case "Acid Orb":
         //Sound FX
-        audio_play_sound(sn_acidorb,10,false);
-        
+        if (!global.muted){
+            audio_play_sound(sn_acidorb,10,false);
+        }
         target = oCursor.hoverNode.occupant;
         attackRoll = irandom_range(1,20);
         attackStatus = attack_roll(actor, target);
@@ -156,7 +160,9 @@ switch(action){
     
     case "Burning Hands":
         //Sound FX
-        audio_play_sound(sn_fire, 10 , false);
+        if (!global.muted){
+            audio_play_sound(sn_fire, 10 , false);
+        }
         targets = ds_list_create();
         damage = 0;
         
@@ -193,8 +199,9 @@ switch(action){
         break;
     case "Magic Missiles":
         //Sound FX
-        audio_play_sound(sn_missile,10,false);
-        targets = ds_list_create();
+        if (!global.muted){
+            audio_play_sound(sn_missile,10,false);
+        }targets = ds_list_create();
         with(oNode){
             if(actionNode){
                 ds_list_add(other.targets, id)   
