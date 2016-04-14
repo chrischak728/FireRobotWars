@@ -89,6 +89,9 @@ spellSaveDC = 0;
 firstLevelSlotMax = 0;
 firstLevelSlot = 0;
 
+//MP regen
+firstLevelSlotRegenTimer = 0;
+
 readiedAction = "error";
 targetingType = "error";
 actionRange = 0;
@@ -177,6 +180,17 @@ switch (state){
         }
         
         if(army==BLUE_ARMY){ //allies
+            //check MP regen time, if can, then regen
+            if (firstLevelSlot != firstLevelSlotMax){
+                firstLevelSlotRegenTimer ++;
+                show_debug_message(firstLevelSlotRegenTimer);
+            }
+            if (firstLevelSlotRegenTimer ==3){
+                firstLevelSlotRegenTimer = 0;
+                firstLevelSlot++;
+                show_debug_message(firstLevelSlotRegenTimer);
+                show_debug_message("MP regened");
+            }
             movement_range(map[gridX,gridY], move, actions);
             
             switch(attackType){
@@ -396,6 +410,7 @@ switch (state){
     case "end turn":
         actionTimer -=1;
         if(actionTimer &lt;=0){
+           
             oCursor.selectedActor = noone;
             oGame.currentActor = noone;
             state = "idle";
