@@ -57,7 +57,7 @@ intMod = 0;
 wisMod = 3;
 
 //health
-maxHP = 16 + conMod + ((level-1) * (4+conMod));
+maxHP = 21 + conMod + ((level-1) * (4+conMod));
 currentHP = maxHP;
 
 //attack
