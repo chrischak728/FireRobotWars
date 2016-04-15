@@ -375,6 +375,8 @@
     <instance objName="oMeleeTarget" x="736" y="704" name="inst_5A42498D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oMeleeTarget" x="800" y="672" name="inst_850EB91A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oMeleeTarget" x="768" y="544" name="inst_239F301F" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oTarget" x="608" y="192" name="inst_39C54B9C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oTarget" x="832" y="32" name="inst_810651B0" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>
