@@ -18,7 +18,7 @@ actorId.gridY = to.gridY;
 actorId.state = "begin path";
 actorId.endPath = "ready";
 
-to.color = c_black;
+//to.color = c_black;
 
 if (to.G > actorId.move){
         actorId.actions -=2;

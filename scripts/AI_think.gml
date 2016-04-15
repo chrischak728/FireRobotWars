@@ -95,7 +95,7 @@ for (i=0;i <ds_list_size(closed); i++){
     current = ds_list_find_value(closed,i);
     current.moveNode = true;
     
-    color_move_node(current, argument1, argument2);
+    //color_move_node(current, argument1, argument2);
     
 }
 
