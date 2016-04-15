@@ -64,7 +64,7 @@ gridX = floor(x/GRID_SIZE);
 gridY = floor(y/GRID_SIZE);
 
 if (gridX &lt; 0 || gridY &lt;0 || gridX &gt; floor(room_width/GRID_SIZE)-1 || gridY &gt; floor(room_height/GRID_SIZE)-1){
-    hoverNode = noone;
+    hoverNode = global.map[0,0];
 } else {
     hoverNode = global.map[gridX,gridY];
 }
