@@ -100,6 +100,7 @@ instance_create(room_width, 0, oTargetStats);
 
 //Game Sound FX BGM
 
+endMusic = false;
 //var sfx_bgm = audio_play_sound(sn_bgm,20,true);
 
 if(!global.muted) //If it's not muted
@@ -218,9 +219,20 @@ if(!global.muted) //If it's not muted
 
         } else if(check_game_over()==GAME_WIN){
             win = true;
-            audio_stop_all();
-            audio_play_sound(sn_win,1,true);
         }
+        //play game over music
+        if (!global.muted &amp;&amp; !endMusic){
+            audio_stop_all();
+            endMusic = true;
+            if (win){
+                audio_play_sound(sn_win,1, true);
+                show_debug_message("win music played");
+            } else {
+                audio_play_sound(sn_lose,1,false);
+                show_debug_message("lose music played");
+            }
+        }
+        
         with(instance_create(room_width/2, room_height, oGameOverMessage)){
             win = other.win;
         }

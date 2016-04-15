@@ -35,7 +35,6 @@ loseTitle = "You lose!!!";
 
 loseMessage = "All allies are killed.#Press any key to exit.";
 
-audioPlay = 0;
 </string>
           </argument>
         </arguments>
@@ -91,11 +90,6 @@ draw_rectangle(x-256, y-128, x+256, y ,false);
 draw_set_color(c_white);
 
 if(win){
-    if (!global.muted &amp;&amp; !audioPlay){
-        audio_stop_all();
-        audio_play_sound(sn_win,10,false);
-        audioPlay = 1;
-    }
     draw_set_font(fCrit);
     draw_set_halign(fa_center);
     draw_text(x, y-128, winTitle);
@@ -104,11 +98,6 @@ if(win){
     draw_text(x, y - 126 + tempOffset, winMessage);
     draw_set_halign(fa_left);
 } else {
-    if (!global.muted &amp;&amp; !audioPlay){
-        audio_stop_all();
-        audio_play_sound(sn_lose,10,false);
-        audioPlay = 1;
-    }
     draw_set_font(fCrit);
     draw_set_halign(fa_center);
     draw_text(x, y-128, loseTitle);

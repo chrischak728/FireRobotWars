@@ -61,7 +61,7 @@ maxHP = 21 + conMod + ((level-1) * (4+conMod));
 currentHP = maxHP;
 
 //attack
-hitBonus = profMod + strMod;
+hitBonus = profMod + strMod + 5;
 
 //damage
 damageDice = 10;

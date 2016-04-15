@@ -61,7 +61,7 @@ maxHP = 10 + conMod + ((level-1) * (4+conMod));
 currentHP = maxHP;
 
 //attack
-hitBonus = profMod + strMod;
+hitBonus = profMod + strMod + 5;
 attackType = "ranged";
 attackRange = 15 * GRID_SIZE;
 
